@@ -217,26 +217,39 @@ body {
 }
 
 // ---------- Match the design artifact ----------
-#main-outlet > .container,
-.d-header .contents,
-.list-controls .container,
-.container.list-container {
+html { overflow-x: clip; }
+#main-outlet-wrapper, #main-outlet { max-width: none; width: 100%; margin: 0; padding: 0; }
+#main-outlet { display: flex; flex-direction: column; }
+
+// Flatten Discourse wrappers so hero -> tabs -> home can be ordered
+.list-container.--categories,
+.list-container.--categories > .row,
+.list-container.--categories > .row > div { display: contents; }
+.list-container.--categories .contents { display: none; }
+
+.oh-hero, .list-controls, .oh-home, .welcome-banner {
+  order: 1;
+  width: 100%;
   max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
   padding-left: 40px;
   padding-right: 40px;
   box-sizing: border-box;
 }
+.welcome-banner, .alert { order: 0; }
+.list-controls { order: 2; }
+.oh-home { order: 3; }
+.list-controls .container { padding: 0; max-width: none; }
 @media (max-width: 720px) {
-  #main-outlet > .container,
-  .d-header .contents,
-  .list-controls .container,
-  .container.list-container { padding-left: 16px; padding-right: 16px; }
+  .oh-hero, .list-controls, .oh-home, .welcome-banner { padding-left: 16px; padding-right: 16px; }
 }
 
 .d-header {
   background: rgba(8, 10, 20, 0.88);
   backdrop-filter: blur(10px);
-  .d-header-wrap, .wrap { max-width: 1280px; }
+  .wrap { max-width: 1280px; padding: 0 40px; box-sizing: border-box; }
+  .title a::after { content: "Forum"; margin-left: 12px; padding-left: 12px; border-left: 1px solid var(--oh-line-mid); font-family: var(--oh-font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--oh-ink-muted); }
 }
 
 // Hero
@@ -246,7 +259,7 @@ body {
   &::before {
     content: "";
     position: absolute;
-    inset: 0 -100vw;
+    top: 0; bottom: 0; left: calc(50% - 50vw); width: 100vw;
     z-index: -1;
     pointer-events: none;
     background-image: radial-gradient(#1f2744 1px, transparent 1.2px);
