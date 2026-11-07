@@ -1,0 +1,29 @@
+{
+  "name": "omega-hub",
+  "component": false,
+  "license_url": null,
+  "about_url": null,
+  "authors": null,
+  "theme_version": null,
+  "minimum_discourse_version": null,
+  "maximum_discourse_version": null,
+  "assets": {},
+  "color_schemes": {
+    "New Color Palette": {
+      "primary": "eef1f8",
+      "secondary": "080a14",
+      "tertiary": "00fdff",
+      "quaternary": "efd17e",
+      "header_background": "0e1222",
+      "header_primary": "eef1f8",
+      "highlight": "0b2c3a",
+      "selected": "1d2440",
+      "hover": "151a2e",
+      "danger": "#d61f38",
+      "success": "#4fdc8c",
+      "love": "#ff8594"
+    }
+  },
+  "modifiers": {},
+  "learn_more": "https://meta.discourse.org/t/beginners-guide-to-using-discourse-themes/91966"
+}
