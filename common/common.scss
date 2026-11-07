@@ -251,7 +251,8 @@ html { overflow-x: clip; }
 }
 .welcome-banner, .alert { order: 0; }
 .list-controls { order: 2; }
-.oh-home { order: 3; }
+.oh-home { order: 4; }
+.discovery-list-container-top-outlet.discourse-adplugin { order: 3; }
 .list-controls .container { padding: 0; max-width: none; }
 @media (max-width: 720px) {
   .oh-hero, .list-controls, .oh-home, .welcome-banner { padding-left: 16px; padding-right: 16px; }
@@ -458,3 +459,51 @@ html { overflow-x: clip; }
 .list-controls .container,
 .list-controls .container > *,
 .list-controls .navigation-container { margin-bottom: 0; padding-bottom: 0; }
+
+// ---------- Ads ----------
+// Top leaderboard comes from the Discourse Ad plugin ("topic list top"), placed under the tabs
+.discovery-list-container-top-outlet.discourse-adplugin {
+  width: 100%; max-width: 1280px; margin: 0 auto; padding: 32px 40px 0; box-sizing: border-box;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  &:empty { display: none; }
+  &:not(:empty)::before { content: "Advertisement"; @extend .oh-signal; align-self: center; }
+}
+.oh-ad {
+  display: flex; flex-direction: column; gap: 6px; max-width: 100%;
+  &__box { max-width: 100%; }
+  &__box--ph {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    background-color: var(--oh-surface-100);
+    background-image: radial-gradient(var(--oh-line) 1px, transparent 1.2px);
+    background-size: 12px 12px; border: 1px dashed var(--oh-line-mid); box-sizing: border-box;
+  }
+  &__dims { font-family: var(--oh-font-mono); font-size: 11px; line-height: 14px; color: var(--oh-ink-dim); }
+  &--lb .oh-ad__box--ph { width: 970px; height: 90px; }
+  &--half .oh-ad__box--ph { width: 300px; height: 600px; }
+  &--rail .oh-ad__box--ph { width: 160px; height: 600px; }
+  &--half { position: sticky; top: 88px; padding-top: 12px; }
+}
+@media (max-width: 1100px) { .oh-ad--lb .oh-ad__box--ph { width: 728px; } }
+@media (max-width: 767px) { .oh-ad--lb .oh-ad__box--ph { width: 320px; height: 100px; } }
+.oh-home__bottom { flex: 1 1 100%; display: flex; justify-content: center; padding-top: 24px; }
+.oh-rail {
+  display: none; position: fixed; top: 88px; z-index: 5;
+  &--l { right: calc(50% + 640px + 24px); }
+  &--r { left: calc(50% + 640px + 24px); }
+}
+@media (min-width: 1640px) { .oh-rail { display: block; } }
+
+// Sponsored Omega Hub banner (between Yu-Gi-Oh and YGO Omega)
+.oh-spon {
+  background: var(--oh-line-mid); padding: 1px; @include oh-chamfer-card(16px);
+  &__in { background: var(--oh-surface-100); padding: 20px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 20px 24px; @include oh-chamfer-card(16px); }
+  &__logo {
+    width: 112px; height: 96px; flex-shrink: 0; background-color: var(--oh-surface-200);
+    background-image: url($duelists-unite-logo), radial-gradient(var(--oh-line) 1px, transparent 1.2px);
+    background-repeat: no-repeat, repeat; background-position: center, 0 0; background-size: 64px auto, 24px 24px;
+  }
+  &__txt { flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  &__t { font-family: var(--oh-font-display); text-transform: uppercase; font-size: 22px; line-height: 1.1; letter-spacing: 0.01em; color: var(--oh-ink); }
+  &__d { font-size: 14px; line-height: 22px; color: var(--oh-ink-dim); }
+  .btn { display: inline-flex; align-items: center; gap: 8px; height: 42px; font-family: var(--oh-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+}

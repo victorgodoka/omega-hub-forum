@@ -1,8 +1,39 @@
 import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
+import { fn } from "@ember/helper";
+import didInsert from "@ember/render-modifiers/modifiers/did-insert";
 import { service } from "@ember/service";
+import { settings } from "virtual:theme";
 import { htmlSafe } from "@ember/template";
 import { ajax } from "discourse/lib/ajax";
+
+// Insert ad tag HTML and re-create <script> nodes so they execute
+function mount(html, el) {
+  const t = document.createElement("template");
+  t.innerHTML = html;
+  t.content.querySelectorAll("script").forEach((o) => {
+    const n = document.createElement("script");
+    [...o.attributes].forEach((a) => n.setAttribute(a.name, a.value));
+    n.text = o.text;
+    o.replaceWith(n);
+  });
+  el.replaceChildren(t.content);
+}
+const slot = (html) => ({ html, on: !!html || settings.ad_show_placeholders });
+
+const Slot = <template>
+  <aside class="oh-ad oh-ad--{{@size}}" aria-label="Advertisement">
+    <span class="oh-signal">Advertisement</span>
+    {{#if @html}}
+      <div class="oh-ad__box" {{didInsert (fn mount @html)}}></div>
+    {{else}}
+      <div class="oh-ad__box oh-ad__box--ph">
+        <span class="oh-ad__dims">{{@dims}}</span>
+        <span class="oh-signal">{{@note}}</span>
+      </div>
+    {{/if}}
+  </aside>
+</template>;
 
 const ICONS = {"team": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path fill=\"#eef1f8\" d=\"M7.2 17.1A8.3 8.3 0 1 1 16.8 17.1V18H21v2.5h-6.8v-4.2a5.6 5.6 0 1 0-4.4 0v4.2H3V18h4.2z\"/></svg>", "website": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><mask id=\"m\"><rect width=\"24\" height=\"24\" fill=\"#fff\"></rect><g fill=\"none\" stroke=\"#000\" stroke-width=\"1.6\"><ellipse cx=\"12\" cy=\"12\" rx=\"4.2\" ry=\"10\"></ellipse><path d=\"M1 12h22M2.5 7.2h19M2.5 16.8h19\"></path></g></mask><circle cx=\"12\" cy=\"12\" r=\"10\" fill=\"#eef1f8\" mask=\"url(#m)\"></circle></svg>", "yu-gi-oh": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><mask id=\"m\"><rect width=\"24\" height=\"24\" fill=\"#fff\"></rect><rect x=\"6.6\" y=\"2.6\" width=\"15\" height=\"19.2\" rx=\"2\" fill=\"#000\"></rect></mask><g mask=\"url(#m)\"><rect x=\"2.5\" y=\"5\" width=\"11\" height=\"16\" rx=\"1.4\" transform=\"rotate(-15 8 13)\" fill=\"#eef1f8\"></rect></g><path fill=\"#eef1f8\" fill-rule=\"evenodd\" d=\"M9.6 4h9.3A1.6 1.6 0 0 1 20.5 5.6v12.8A1.6 1.6 0 0 1 18.9 20H9.6A1.6 1.6 0 0 1 8 18.4V5.6A1.6 1.6 0 0 1 9.6 4zm.6 2.2v6.6h8.1V6.2zm0 8.6v1.4h8.1v-1.4zm0 2.4v1h5.5v-1z\"></path></svg>", "ygo omega": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path fill=\"#eef1f8\" d=\"M7.2 17.1A8.3 8.3 0 1 1 16.8 17.1V18H21v2.5h-6.8v-4.2a5.6 5.6 0 1 0-4.4 0v4.2H3V18h4.2z\"></path></svg>", "tournaments": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><g fill=\"#eef1f8\"><path d=\"M7 3h10v5.5a5 5 0 0 1-10 0z\"></path><path d=\"M3 4.5h4v1.9H4.9V7a2.5 2.5 0 0 0 2.4 2.5l.5 1.9A4.4 4.4 0 0 1 3 7z\"></path><path d=\"M21 4.5h-4v1.9h2.1V7a2.5 2.5 0 0 1-2.4 2.5l-.5 1.9A4.4 4.4 0 0 0 21 7z\"></path><rect x=\"11\" y=\"13\" width=\"2\" height=\"4\"></rect><path d=\"M8 16.6h8V19h1.5v2h-11v-2H8z\"></path></g></svg>", "dorm wars": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><defs><g id=\"s\"><path d=\"M12 1l1.4 1.8v11.4h-2.8V2.8z\"></path><rect x=\"8\" y=\"14.2\" width=\"8\" height=\"2\"></rect><rect x=\"11\" y=\"16.2\" width=\"2\" height=\"3.6\"></rect><rect x=\"10.4\" y=\"19.8\" width=\"3.2\" height=\"2\"></rect></g></defs><g fill=\"#eef1f8\"><use href=\"#s\" transform=\"rotate(42 12 12)\"></use><use href=\"#s\" transform=\"rotate(-42 12 12)\"></use></g></svg>", "watercooler": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><mask id=\"m\"><rect width=\"24\" height=\"24\" fill=\"#fff\"></rect><path d=\"M7.6 7.6h15v12h-1.6v4.4L15.8 19.6H7.6z\" fill=\"#000\"></path></mask><path fill=\"#eef1f8\" mask=\"url(#m)\" d=\"M1.5 2.5h14v10H7l-3.5 3.2V12.5h-2z\"></path><path fill=\"#eef1f8\" d=\"M9 9h12.5v9.2h-1.8v3.3l-3.9-3.3H9z\"></path></svg>"};
 const icon = (n) => {
@@ -41,6 +72,15 @@ export default class OmegaHome extends Component {
     return this.router.currentRouteName === "discovery.categories";
   }
 
+  get ads() {
+    return {
+      left: slot(settings.ad_rail_left_html),
+      right: slot(settings.ad_rail_right_html),
+      side: slot(settings.ad_sidebar_html),
+      bottom: slot(settings.ad_bottom_html),
+    };
+  }
+
   get subCount() {
     return this.cats.reduce((n, c) => n + c.subs.length, 0);
   }
@@ -60,6 +100,7 @@ export default class OmegaHome extends Component {
     );
     this.cats = top.map((x, i) => ({
       name: x.name,
+      adAfter: x.name.toLowerCase() === "yu-gi-oh",
       color: `#${x.color}`,
       icon: icon(x.name),
       url: `/c/${x.slug}/${x.id}`,
@@ -142,6 +183,19 @@ export default class OmegaHome extends Component {
                 </div>
               </div>
             </article>
+            {{#if c.adAfter}}
+              <aside class="oh-spon" aria-label="Sponsored">
+                <div class="oh-spon__in">
+                  <div class="oh-spon__logo" aria-hidden="true"></div>
+                  <div class="oh-spon__txt">
+                    <span class="oh-signal">Sponsored · Duelists Unite</span>
+                    <span class="oh-spon__t">Omega Hub</span>
+                    <span class="oh-spon__d">Tournaments, stats, leaderboards and community for YGO Omega.</span>
+                  </div>
+                  <a class="btn btn-default" href="https://omega.duelistsunite.org">Open Omega Hub<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 11h11.2l-4.6-4.6L12 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"></path></svg></a>
+                </div>
+              </aside>
+            {{/if}}
           {{/each}}
         </section>
 
@@ -177,7 +231,21 @@ export default class OmegaHome extends Component {
               <div class="oh-lat__all"><a class="oh-signal" href="/latest">View all latest topics<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 11h11.2l-4.6-4.6L12 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"></path></svg></a></div>
             </div>
           </div>
+          {{#if this.ads.side.on}}
+            <Slot @html={{this.ads.side.html}} @size="half" @dims="300 × 600" @note="Half page · sticky" />
+          {{/if}}
         </aside>
+        {{#if this.ads.bottom.on}}
+          <div class="oh-home__bottom">
+            <Slot @html={{this.ads.bottom.html}} @size="lb" @dims="970 × 90" @note="Leaderboard · before footer" />
+          </div>
+        {{/if}}
+        {{#if this.ads.left.on}}
+          <div class="oh-rail oh-rail--l"><Slot @html={{this.ads.left.html}} @size="rail" @dims="160 × 600" @note="Siderail · sticky" /></div>
+        {{/if}}
+        {{#if this.ads.right.on}}
+          <div class="oh-rail oh-rail--r"><Slot @html={{this.ads.right.html}} @size="rail" @dims="160 × 600" @note="Siderail · sticky" /></div>
+        {{/if}}
       </div>
     {{/if}}
   </template>
