@@ -69,17 +69,51 @@ h1, h2, h3,
   text-transform: uppercase;
 }
 
+// ---------- Header (artboard "Header states") ----------
 .d-header {
-  background: var(--oh-surface-100);
+  background: rgba(8, 10, 20, 0.92);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--oh-line);
   box-shadow: none;
+  height: 64px;
 
-  #site-text-logo,
-  .title a {
-    font-family: var(--oh-font-brand);
-    letter-spacing: 0.1em;
-  }
+  .wrap { max-width: none; padding: 0 32px; box-sizing: border-box; }
+  .contents { height: 64px; align-items: center; gap: 28px; }
+  .panel { margin-left: auto; display: flex; align-items: center; flex: 1; }
+  .header-buttons { margin-left: 8px; gap: 14px; }
+  .header-buttons .btn { font-family: var(--oh-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; height: 40px; }
+  .d-header-icons { margin-left: auto; align-items: center; }
+  .d-header-icons .icon, .d-header-icons .btn-flat { width: 44px; height: 44px; color: var(--oh-ink-dim); &:hover, &:focus-visible { color: var(--oh-ink); background: none; } }
+  .d-header-icons .active .icon { color: var(--oh-cyan); background: var(--oh-ground-cyan); }
+  .d-header-icons .badge-notification { background: var(--oh-cyan); color: var(--oh-cyan-on); font-family: var(--oh-font-mono); font-weight: 700; border-radius: 9999px; }
+
+  #site-text-logo, .title a { font-family: var(--oh-font-brand); text-transform: uppercase; letter-spacing: 0.1em; color: var(--oh-ink); }
+  .title a::after { content: "Forum"; margin-left: 12px; padding-left: 12px; border-left: 1px solid var(--oh-line-mid); font-family: var(--oh-font-mono); font-size: 10px; letter-spacing: 0.16em; color: var(--oh-ink-muted); }
 }
+
+// Nav links + dropdowns (CSS-only: hover / keyboard focus)
+.d-header .oh-nav {
+  list-style: none; margin-right: auto;
+  > ul { display: flex; align-items: center; gap: 22px; margin: 0; padding: 0; list-style: none; }
+  &__item { position: relative; }
+  &__link {
+    display: inline-flex; align-items: center; gap: 4px; height: 64px; padding: 0; background: none; border: 0; cursor: pointer;
+    font-family: var(--oh-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--oh-ink-dim);
+    &:hover { color: var(--oh-ink); }
+  }
+  &__caret { width: 0; height: 0; border: 4px solid transparent; border-top-color: currentColor; border-bottom: 0; }
+  &__menu {
+    display: none; position: absolute; top: 64px; left: -16px; min-width: 280px; padding: 6px 0;
+    background: var(--oh-surface-100); border: 1px solid var(--oh-line-mid); box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    a { display: flex; flex-direction: column; gap: 2px; padding: 12px 16px; &:hover { background: var(--oh-surface-300); } & + a { border-top: 1px solid var(--oh-line); } }
+    b { display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 20px; color: var(--oh-ink); }
+    span { font-size: 13px; line-height: 18px; color: var(--oh-ink-dim); }
+  }
+  &__live { width: 8px; height: 8px; border-radius: 9999px; background: var(--oh-crimson); }
+  &__item:hover > &__menu, &__item:focus-within > &__menu { display: block; }
+  &__item:hover > &__link, &__item:focus-within > &__link { color: var(--oh-ink); box-shadow: inset 0 -2px 0 var(--oh-cyan); }
+}
+@media (max-width: 1279px) { .d-header .oh-nav { display: none; } }
 
 // Square corners everywhere; avatars stay square
 img.avatar,
@@ -257,13 +291,6 @@ html { overflow-x: clip; }
   .oh-hero, .list-controls, .oh-home, .welcome-banner { padding-left: 16px; padding-right: 16px; }
 }
 
-.d-header {
-  background: rgba(8, 10, 20, 0.88);
-  backdrop-filter: blur(10px);
-  .wrap { max-width: 1280px; padding: 0 40px; box-sizing: border-box; }
-  .title a::after { content: "Forum"; margin-left: 12px; padding-left: 12px; border-left: 1px solid var(--oh-line-mid); font-family: var(--oh-font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--oh-ink-muted); }
-}
-
 // Hero
 .oh-hero {
   position: relative;
@@ -414,9 +441,6 @@ html { overflow-x: clip; }
   a { font-family: var(--oh-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--oh-ink-dim); &:hover { color: var(--oh-ink); } }
 }
 @media (max-width: 1023px) { .d-header .oh-social { display: none; } }
-.d-header .header-buttons .btn {
-  font-family: var(--oh-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; height: 40px;
-}
 
 // Footer
 .powered-by-discourse { display: none; }
@@ -683,6 +707,14 @@ body.category {
   dd img { width: 22px; height: 22px; border-radius: 0; }
   &__d { font-size: 12px; color: var(--oh-ink); letter-spacing: 0.08em; }
   &__n { font-family: var(--oh-font-display); font-size: 24px; line-height: 1; }
+}
+// "first time posted" notice: full-width strip instead of a 48px grid cell
+.topic-post .post-notice {
+  grid-column: 1 / -1; order: -1; width: auto; float: none; position: static;
+  display: flex; align-items: center; gap: 8px; margin: 0 0 16px; padding: 8px 12px;
+  background: var(--oh-surface-300); border: 1px solid var(--oh-line);
+  font-family: var(--oh-font-mono); font-size: 11px; letter-spacing: 0.08em; color: var(--oh-ink-dim);
+  p { margin: 0; }
 }
 // the native single stat row under post 1 is redundant now
 .topic-post .post__topic-map { display: none; }
