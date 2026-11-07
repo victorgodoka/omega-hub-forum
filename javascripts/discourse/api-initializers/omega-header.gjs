@@ -8,7 +8,7 @@ const iconSrc = (v) => {
 };
 
 function tree() {
-  const all = (settings.header_links || []).map((l) => ({ ...l, icon: iconSrc(l.icon) }));
+  const all = (settings.header_links || []).map((l) => ({ ...l, icon: l.icon_upload || iconSrc(l.icon) }));
   return all
     .filter((l) => !l.parent)
     .map((l) => ({ ...l, items: all.filter((c) => c.parent && c.parent === l.label) }));
@@ -41,7 +41,7 @@ const Nav = <template>
 export default apiInitializer((api) => {
   // Optional icon overrides from theme settings (CSS mask, see common.scss)
   ["search", "chat", "menu"].forEach((k) => {
-    const url = iconSrc(settings[`icon_${k}`]);
+    const url = settings[`icon_${k}_upload`] || iconSrc(settings[`icon_${k}`]);
     if (url) {
       document.documentElement.classList.add(`oh-ico-${k}`);
       document.documentElement.style.setProperty(`--oh-icon-${k}`, `url("${url}")`);

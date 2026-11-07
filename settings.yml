@@ -29,17 +29,30 @@ header_links:
       url: { type: string }
       description: { type: string }
       parent: { type: string }
-      icon: { type: string, description: "Image URL or inline <svg ...> markup" }
+      icon_upload: { type: upload }
+      icon: { type: string, description: "Used when no upload is set: image URL or inline <svg ...> markup" }
       live: { type: boolean }
       new_tab: { type: boolean }
+icon_search_upload:
+  type: upload
+  default: ""
+  description: "Upload for the search icon (SVG/PNG, transparent background). Wins over the text field below."
 icon_search:
   type: string
   default: ""
   description: "Replaces the header search icon. Image URL (SVG/PNG, transparent background) or inline <svg ...> markup. Tinted with the header text color."
+icon_chat_upload:
+  type: upload
+  default: ""
+  description: "Upload for the chat icon (SVG/PNG, transparent background). Wins over the text field below."
 icon_chat:
   type: string
   default: ""
   description: "Replaces the header chat icon (same rules as the search icon)."
+icon_menu_upload:
+  type: upload
+  default: ""
+  description: "Upload for the menu icon (SVG/PNG, transparent background). Wins over the text field below."
 icon_menu:
   type: string
   default: ""
