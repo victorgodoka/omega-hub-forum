@@ -1,0 +1,8 @@
+// Keep the sticky topic rail within the viewport, including long participant lists.
+// 88px sticky offset + 16px clearance below the card.
+.container.posts > .topic-navigation {
+  max-height: calc(100vh - 104px);
+  max-height: calc(100dvh - 104px);
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}

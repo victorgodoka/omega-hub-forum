@@ -34,6 +34,33 @@
   --oh-cut-md: 12px;
 }
 
+// Global scrollbars: dark track, high-contrast square thumb.
+// The root colors inherit into nested scrolling panels.
+:root {
+  scrollbar-color: var(--oh-line-strong) var(--oh-surface-100);
+}
+
+* {
+  scrollbar-width: thin;
+}
+
+// Fallback for browsers without the standard scrollbar properties.
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: var(--oh-surface-100); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--oh-line-strong);
+    border: 2px solid var(--oh-surface-100);
+    border-radius: 0;
+  }
+  ::-webkit-scrollbar-thumb:hover, ::-webkit-scrollbar-thumb:active { background: var(--oh-cyan); }
+}
+
+@media (forced-colors: active) {
+  :root { scrollbar-color: auto; }
+  * { scrollbar-width: auto; }
+}
+
 // Chamfer helpers: controls cut top-left + bottom-right, cards cut top-right
 @mixin oh-chamfer-control($c: var(--oh-cut-sm)) {
   clip-path: polygon(
