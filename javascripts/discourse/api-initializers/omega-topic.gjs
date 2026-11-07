@@ -1,4 +1,5 @@
 import Component from "@glimmer/component";
+import { service } from "@ember/service";
 import { apiInitializer } from "discourse/lib/api";
 import { AutoAd } from "../components/oh-ad";
 
@@ -73,8 +74,10 @@ class Crumbs extends Component {
   </template>
 }
 
-// Last activity + participants, shown under the timeline
+// Desktop sidebar only: mobile topic-navigation floats over the post stream.
 class Participants extends Component {
+  @service site;
+
   get t() {
     return this.args.outletArgs.topic;
   }
@@ -94,15 +97,17 @@ class Participants extends Component {
     }));
   }
   <template>
-    <div class="oh-parts">
-      <div class="oh-parts__last oh-signal">{{this.last}}</div>
-      <div class="oh-parts__h oh-signal">Participants</div>
-      {{#each this.people as |p|}}
-        <div class="oh-parts__p">
-          <img src={{p.avatar}} alt="" width="22" height="22" /><span>{{p.name}}</span><span class="oh-signal">{{p.posts}}</span>
-        </div>
-      {{/each}}
-    </div>
+    {{#unless this.site.mobileView}}
+      <div class="oh-parts">
+        <div class="oh-parts__last oh-signal">{{this.last}}</div>
+        <div class="oh-parts__h oh-signal">Participants</div>
+        {{#each this.people as |p|}}
+          <div class="oh-parts__p">
+            <img src={{p.avatar}} alt="" width="22" height="22" /><span>{{p.name}}</span><span class="oh-signal">{{p.posts}}</span>
+          </div>
+        {{/each}}
+      </div>
+    {{/unless}}
   </template>
 }
 
