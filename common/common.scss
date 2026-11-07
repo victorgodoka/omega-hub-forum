@@ -670,3 +670,27 @@ body.category {
     .topic-map__stats { display: flex; gap: 16px; align-items: center; } }
 }
 @media (max-width: 720px) { .container.posts { padding: 16px; } .topic-post article.boxed { padding: 16px; } }
+
+// ---------- Topic page, round 2 ----------
+.container.posts { &::before, &::after { display: none; } .selected-posts { display: none; } }
+.oh-map-wrap { max-width: 1280px; margin: 0 auto; padding: 18px 40px 0; box-sizing: border-box; }
+.oh-map {
+  max-width: 900px; margin: 0;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px;
+  > div { background: var(--oh-surface-100); padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; margin: 0; border: 1px solid var(--oh-line); margin: 0 -1px -1px 0; }
+  dt { margin: 0; }
+  dd { margin: 0; display: flex; align-items: center; gap: 8px; color: var(--oh-ink); }
+  dd img { width: 22px; height: 22px; border-radius: 0; }
+  &__d { font-size: 12px; color: var(--oh-ink); letter-spacing: 0.08em; }
+  &__n { font-family: var(--oh-font-display); font-size: 24px; line-height: 1; }
+}
+// the native single stat row under post 1 is redundant now
+.topic-post .post__topic-map { display: none; }
+
+// Reply bar + footer buttons aligned to the column
+#topic-footer-buttons, .topic-above-footer-buttons-outlet { max-width: 1280px; margin: 0 auto; padding: 0 40px; box-sizing: border-box; }
+#topic-footer-buttons { padding-bottom: 32px; }
+.more-topics__container { max-width: 1280px; margin: 0 auto; padding: 40px 40px 64px; box-sizing: border-box; }
+.more-topics__list { .topic-list { background: var(--oh-line); } }
+.more-topics__browse-more { font-family: var(--oh-font-sans); text-transform: none; font-size: 14px; line-height: 22px; font-weight: 400; color: var(--oh-ink-dim); }
+@media (max-width: 720px) { .oh-map-wrap, #topic-footer-buttons, .more-topics__container { padding-left: 16px; padding-right: 16px; margin-left: 0; } }
