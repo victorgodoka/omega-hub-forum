@@ -25,31 +25,6 @@ const day = (iso) => {
 };
 const av = (u) => u?.avatar_template?.replace("{size}", "48");
 
-// Participants list inside the timeline card
-class Participants extends Component {
-  get list() {
-    return (this.args.outletArgs?.model?.details?.participants || []).slice(0, 8).map((p) => ({
-      name: p.username,
-      avatar: av(p),
-      count: p.post_count,
-    }));
-  }
-  <template>
-    {{#if this.list.length}}
-      <div class="oh-parts">
-        <span class="oh-signal">Participants</span>
-        {{#each this.list as |p|}}
-          <div class="oh-parts__row">
-            <img src={{p.avatar}} alt="" width="24" height="24" />
-            <a href="/u/{{p.name}}">{{p.name}}</a>
-            <span class="oh-signal">{{p.count}} posts</span>
-          </div>
-        {{/each}}
-      </div>
-    {{/if}}
-  </template>
-}
-
 // Stat cells under the title: Created / Last reply / Replies / Views / Users
 class TopicMap extends Component {
   get t() {
@@ -141,7 +116,6 @@ const AboveSuggested = <template>
 export default apiInitializer((api) => {
   api.renderAfterWrapperOutlet("post-article", AfterPost);
   api.renderInOutlet("topic-above-post-stream", TopicMap);
-  api.renderInOutlet("timeline-footer-controls-after", Participants);
   api.renderInOutlet("topic-title", Crumbs);
   api.renderInOutlet("topic-navigation", Participants);
   api.renderInOutlet("post-meta-data-infos", PostNum);
