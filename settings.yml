@@ -6,3 +6,28 @@ ad_show_placeholders:
   type: bool
   default: false
   description: "Show dashed placeholder boxes in the ad slots when Nitro is not configured (staging/preview only)."
+header_links:
+  type: objects
+  description: "Header menu. Leave 'Parent' empty for a top-level link; set it to another link's label to nest it in that link's dropdown (a link with children becomes a dropdown and ignores its own URL). Items show in list order."
+  default:
+    - { label: "News", url: "/", description: "", parent: "", live: false }
+    - { label: "Downloads", url: "/", description: "", parent: "", live: false }
+    - { label: "Leaderboards", url: "", description: "", parent: "", live: false }
+    - { label: "TCG & OCG Rankings", url: "/", description: "TCG Leaderboard", parent: "Leaderboards", live: false }
+    - { label: "Statistics", url: "/", description: "", parent: "", live: false }
+    - { label: "Tournaments", url: "", description: "", parent: "", live: false }
+    - { label: "Live Tournament", url: "/", description: "Live Tournament", parent: "Tournaments", live: true }
+    - { label: "Past Tournaments", url: "/", description: "Past Tournaments", parent: "Tournaments", live: false }
+    - { label: "Tools", url: "", description: "", parent: "", live: false }
+    - { label: "Probability Calculator", url: "/", description: "Hypergeometric Calculator for YGO", parent: "Tools", live: false }
+    - { label: "Custom Banlist Creator", url: "/", description: "Create your own banlist", parent: "Tools", live: false }
+  schema:
+    name: Link
+    identifier: label
+    properties:
+      label: { type: string, required: true }
+      url: { type: string }
+      description: { type: string }
+      parent: { type: string }
+      icon: { type: upload }
+      live: { type: boolean }
