@@ -103,7 +103,7 @@ export default class OmegaHome extends Component {
         <section class="oh-home__cats" aria-labelledby="oh-cat-h">
           <div class="oh-sec">
             <span class="oh-sec__n">01</span>
-            <h2 id="oh-cat-h">Categories</h2>
+            <h2 id="oh-cat-h">Forum categories</h2>
             <span class="oh-sec__rule"></span>
             <span class="oh-signal">{{this.cats.length}} categories · {{this.subCount}} subcategories</span>
           </div>
@@ -148,7 +148,7 @@ export default class OmegaHome extends Component {
         <aside class="oh-home__latest" aria-label="Latest and links">
           <div class="oh-sec">
             <span class="oh-sec__n">02</span>
-            <h2>Latest</h2>
+            <h2>Latest topics</h2>
             <span class="oh-sec__rule"></span>
             <span class="oh-signal">Newest first</span>
           </div>
@@ -174,7 +174,7 @@ export default class OmegaHome extends Component {
                   </li>
                 {{/each}}
               </ol>
-              <div class="oh-lat__all"><a class="oh-signal" href="/latest">View all latest<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 11h11.2l-4.6-4.6L12 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"></path></svg></a></div>
+              <div class="oh-lat__all"><a class="oh-signal" href="/latest">View all latest topics<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 11h11.2l-4.6-4.6L12 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"></path></svg></a></div>
             </div>
           </div>
         </aside>

@@ -34,9 +34,9 @@ export default class OmegaHero extends Component {
     {{#if this.show}}
       <section class="oh-hero">
         <div class="oh-hero__main">
-          <div class="oh-eyebrow"><i class="oh-eyebrow__sq"></i>Duelists Unite · Community forum</div>
-          <h1>A hub for duelists that play card games.</h1>
-          <p>A place where Duelists from all different trading card games gather to duel. Home of YGO Omega, a free online automatic Yu-Gi-Oh simulator.</p>
+          <div class="oh-eyebrow"><i class="oh-eyebrow__sq"></i>Duelists Unite · YGO Omega community forum</div>
+          <h1>YGO Omega forum: a hub for card game duelists</h1>
+          <p>Home of YGO Omega, the free online automatic Yu-Gi-Oh simulator. Report bugs, share decks, get rulings, join tournaments and duel with players from every trading card game.</p>
           {{#unless this.currentUser}}
             <div class="oh-hero__cta">
               <a class="btn btn-primary" href="/signup">Sign Up<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 11h11.2l-4.6-4.6L12 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"></path></svg></a>
@@ -44,7 +44,7 @@ export default class OmegaHero extends Component {
             </div>
           {{/unless}}
         </div>
-        <aside class="oh-hero__stats" aria-label="Forum at a glance">
+        <aside class="oh-hero__stats" aria-label="Forum statistics">
           <div class="oh-signal">At a glance</div>
           <div class="oh-stats">
             {{#each this.cells as |c|}}
