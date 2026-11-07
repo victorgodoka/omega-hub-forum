@@ -2,7 +2,9 @@ import Component from "@glimmer/component";
 import { service } from "@ember/service";
 import { htmlSafe } from "@ember/template";
 
-const num = (n) => (n || 0).toLocaleString("en-US");
+import { AutoAd } from "../../components/oh-ad";
+
+const num =(n) => (n || 0).toLocaleString("en-US");
 
 export default class OmegaCategory extends Component {
   @service router;
@@ -77,6 +79,10 @@ export default class OmegaCategory extends Component {
           </div>
         </div>
       </header>
+
+      <div class="oh-cat__ad"><AutoAd @id="oh-ad-cat-top" @size="lb" @note="Leaderboard · topic list top" /></div>
+      <div class="oh-rail oh-rail--l"><AutoAd @id="oh-ad-cat-rail-l" @size="rail" /></div>
+      <div class="oh-rail oh-rail--r"><AutoAd @id="oh-ad-cat-rail-r" @size="rail" /></div>
 
       {{#if this.view.subs.length}}
         <section class="oh-cat__subs" aria-labelledby="oh-sub-h">
