@@ -649,8 +649,8 @@ pre, code { background: var(--oh-surface-200); border: 1px solid var(--oh-line);
   h4, .label { font-family: var(--oh-font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--oh-ink-muted); }
 }
 
-// Timeline rail
-.topic-timeline { background: var(--oh-surface-100); border: 1px solid var(--oh-line); padding: 18px;
+// Desktop timeline rail. Mobile uses Discourse's expandable navigation panel.
+.desktop-view .topic-timeline { background: var(--oh-surface-100); border: 1px solid var(--oh-line); padding: 18px;
   .timeline-scrollarea-wrapper { border-left: 2px solid var(--oh-line); }
   .timeline-handle { background: var(--oh-cyan); width: 2px; }
   .start-date, .now-date { font-family: var(--oh-font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--oh-ink-muted); }
@@ -701,9 +701,9 @@ body.category {
   display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;
   max-width: 1280px; margin: 0 auto; padding: 32px 40px; box-sizing: border-box; width: 100%;
   > .row { order: 1; flex: 999 1 600px; min-width: 0; margin: 0; width: auto; }
-  > .topic-navigation { order: 2; flex: 1 1 300px; max-width: 340px; position: sticky; top: 88px; width: auto; margin: 0; }
+  .desktop-view & > .topic-navigation { order: 2; flex: 1 1 300px; max-width: 340px; position: sticky; top: 88px; width: auto; margin: 0; }
   > .topic-map.--bottom { display: none; }
-  .timeline-container { position: static; width: auto; margin: 0; padding: 0; }
+  .desktop-view & .timeline-container { position: static; width: auto; margin: 0; padding: 0; }
   // Keep the frame open so reaction pickers can extend beyond the post stream.
   .topic-area {
     padding: 1px; max-width: none; width: 100%; background: var(--oh-line-mid);
@@ -927,7 +927,7 @@ body { background-color: transparent; background-image: none; }
 }
 
 // Timeline card: date / big counter / track / date, participants below
-.topic-timeline {
+.desktop-view .topic-timeline {
   display: flex; flex-direction: column; gap: 12px;
   .timeline-controls .btn { background: transparent; }
   .timeline-scroller { min-height: 48px; }
@@ -1053,7 +1053,7 @@ body { background-color: transparent; background-image: none; }
 }
 
 // Timeline card = one card: date / track / last date / participants (artboard)
-.container.posts > .topic-navigation {
+.desktop-view .container.posts > .topic-navigation {
   display: flex; flex-direction: column;
   .timeline-container { order: 1; width: 100%; }
   .oh-parts { order: 2; padding: 0 18px 18px; &__last { padding: 0 0 12px; } &__h { padding: 8px 0 10px; } &__p { padding: 0; margin-bottom: 10px; &:last-child { margin-bottom: 0; } img { width: 24px; height: 24px; } } }

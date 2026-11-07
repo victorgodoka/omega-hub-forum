@@ -1,8 +1,16 @@
-// Keep the sticky topic rail within the viewport, including long participant lists.
+// Keep the timeline in place; only the participants section scrolls.
 // 88px sticky offset + 16px clearance below the card.
-.container.posts > .topic-navigation {
+.desktop-view .container.posts > .topic-navigation {
   max-height: calc(100vh - 104px);
   max-height: calc(100dvh - 104px);
-  overflow-y: auto;
-  scrollbar-gutter: stable;
+
+  .timeline-container { flex-shrink: 0; }
+
+  .oh-parts {
+    min-height: 0;
+    max-height: 24rem;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+    box-sizing: border-box;
+  }
 }
