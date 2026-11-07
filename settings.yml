@@ -31,3 +31,16 @@ header_links:
       parent: { type: string }
       icon: { type: upload }
       live: { type: boolean }
+      new_tab: { type: boolean }
+icon_search:
+  type: upload
+  default: ""
+  description: "Replaces the header search icon. Use an SVG/PNG with a transparent background; it is tinted with the header text color."
+icon_chat:
+  type: upload
+  default: ""
+  description: "Replaces the header chat icon (same rules as the search icon)."
+icon_menu:
+  type: upload
+  default: ""
+  description: "Replaces the header navigation menu (hamburger) icon (same rules as the search icon)."

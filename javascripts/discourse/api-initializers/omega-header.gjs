@@ -17,14 +17,14 @@ const Nav = <template>
             <button type="button" class="oh-nav__link" aria-haspopup="menu">{{#if l.icon}}<img class="oh-nav__icon" src={{l.icon}} alt="" />{{/if}}{{l.label}}<span class="oh-nav__caret" aria-hidden="true"></span></button>
             <div class="oh-nav__menu" role="menu">
               {{#each l.items as |i|}}
-                <a href={{i.url}} role="menuitem">
+                <a href={{i.url}} target={{if i.new_tab "_blank"}} rel={{if i.new_tab "noopener noreferrer"}} role="menuitem">
                   <b>{{#if i.icon}}<img class="oh-nav__icon" src={{i.icon}} alt="" />{{/if}}{{#if i.live}}<span class="oh-nav__live" role="img" aria-label="Live"></span>{{/if}}{{i.label}}</b>
                   {{#if i.description}}<span>{{i.description}}</span>{{/if}}
                 </a>
               {{/each}}
             </div>
           {{else}}
-            <a href={{l.url}} class="oh-nav__link">{{#if l.icon}}<img class="oh-nav__icon" src={{l.icon}} alt="" />{{/if}}{{l.label}}</a>
+            <a href={{l.url}} target={{if l.new_tab "_blank"}} rel={{if l.new_tab "noopener noreferrer"}} class="oh-nav__link">{{#if l.icon}}<img class="oh-nav__icon" src={{l.icon}} alt="" />{{/if}}{{l.label}}</a>
           {{/if}}
         </li>
       {{/each}}
@@ -33,6 +33,14 @@ const Nav = <template>
 </template>;
 
 export default apiInitializer((api) => {
+  // Optional icon overrides from theme settings (CSS mask, see common.scss)
+  ["search", "chat", "menu"].forEach((k) => {
+    const url = settings[`icon_${k}`];
+    if (url) {
+      document.documentElement.classList.add(`oh-ico-${k}`);
+      document.documentElement.style.setProperty(`--oh-icon-${k}`, `url("${url}")`);
+    }
+  });
   api.headerIcons?.add("oh-nav", Nav, { before: "search" });
   // Core hides the footer on lists that can load more; our design wants it on every page
   api.container.lookup("service:footer")._showFooterOverride = true;

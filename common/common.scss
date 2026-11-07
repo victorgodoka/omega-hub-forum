@@ -91,6 +91,19 @@ h1, h2, h3,
   .title a::after { content: "Forum"; margin-left: 12px; padding-left: 12px; border-left: 1px solid var(--oh-line-mid); font-family: var(--oh-font-mono); font-size: 10px; letter-spacing: 0.16em; color: var(--oh-ink-muted); }
 }
 
+// Icon overrides (theme settings icon_search / icon_chat / icon_menu): mask keeps the hover/active colors
+@each $k, $sel in (search: ".search-dropdown", chat: ".chat-header-icon", menu: ".hamburger-dropdown") {
+  .oh-ico-#{$k} .d-header #{$sel} .icon,
+  .oh-ico-#{$k} .d-header #{$sel} .d-icon {
+    svg { display: none; }
+  }
+  .oh-ico-#{$k} .d-header #{$sel} .icon {
+    background-color: currentColor;
+    mask: var(--oh-icon-#{$k}) center / 22px no-repeat;
+    -webkit-mask: var(--oh-icon-#{$k}) center / 22px no-repeat;
+  }
+}
+
 // Nav links + dropdowns (CSS-only: hover / keyboard focus)
 .d-header .oh-nav {
   list-style: none; margin-right: auto;
@@ -912,3 +925,58 @@ body { background-color: transparent; background-image: none; }
   &__p { display: flex; align-items: center; gap: 10px; padding: 6px 0; color: var(--oh-ink); font-size: 13px; font-weight: 700;
     img { border-radius: 0; } .oh-signal { margin-left: auto; font-weight: 400; } } }
 .oh-postnum { margin-left: 10px; }
+
+// ---------- Topic round 4: match the artboard order + details ----------
+// Order: breadcrumb -> title -> category/tags -> stat map -> posts (Discourse renders the map above the title)
+.regular:has(> #topic-title) {
+  display: flex; flex-direction: column;
+  > #topic-title { order: -2; width: 100%; }
+  > .container:not(#topic-title):not(.posts) { order: -1; width: 100%; box-sizing: border-box; }
+  > #topic-footer-buttons, > .more-topics__container, > .topic-above-footer-buttons-outlet { width: 100%; box-sizing: border-box; }
+}
+#topic-title {
+  display: flex; flex-direction: column;
+  .oh-bc { order: -1; margin: 0 0 18px; gap: 10px; font-size: 11px; line-height: 14px; font-weight: 700; letter-spacing: 0.14em;
+    span { color: var(--oh-line-mid); } }
+  .title-wrapper { gap: 18px; }
+  h1, .fancy-title { max-width: 900px; }
+  .topic-category { align-items: center; flex-wrap: wrap; gap: 8px 16px; }
+  .badge-category__name { font-family: var(--oh-font-sans); text-transform: none; letter-spacing: 0; font-size: 13px; line-height: 20px; font-weight: 500; color: var(--oh-ink); }
+  .discourse-tag, .discourse-tag.box { background: none; border: 0; padding: 0; font-size: 10px; line-height: 12px; letter-spacing: 0.12em; color: var(--oh-azure-lift); &::before { content: "# "; } }
+}
+
+// Posts: header, body rhythm, footer actions
+.topic-post {
+  .topic-meta-data .names span.first a, .topic-meta-data .names span.first.full-name a { color: var(--oh-ink) !important; }
+  .topic-meta-data .names span.second a { font-size: 13px; line-height: 20px; font-weight: 400; color: var(--oh-ink-muted); }
+  .topic-meta-data .names { margin: 0; } .topic-meta-data .post-infos { margin: 0 0 0 auto; }
+  .topic-body .cooked { padding: 0 !important; }
+  .cooked { p { margin: 0; } p + p { margin-top: 14px; } ol, ul { margin: 0; } > :last-child { margin-bottom: 0; } }
+  .post__menu-area, .post-menu-area { margin: 14px 0 0; padding: 0; }
+  .post-controls { margin: 0 0 0 -10px; padding: 0; width: auto;
+    .actions { display: flex; align-items: center; gap: 4px; width: 100%; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 40px; height: 40px; padding: 0 10px; background: transparent; color: var(--oh-ink-muted);
+      font-family: var(--oh-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+    .post-action-menu__reply { margin-left: auto; } }
+}
+
+// Timeline card = one card: date / track / last date / participants (artboard)
+.container.posts > .topic-navigation {
+  display: flex; flex-direction: column;
+  .timeline-container { order: 1; width: 100%; }
+  .oh-parts { order: 2; padding: 0 18px 18px; &__last { padding: 0 0 12px; } &__h { padding: 8px 0 10px; } &__p { padding: 0; margin-bottom: 10px; &:last-child { margin-bottom: 0; } img { width: 24px; height: 24px; } } }
+  .topic-timeline { border-bottom: 0; padding-bottom: 12px;
+    .timeline-controls, .timeline-footer-controls, .timeline-scrollarea-wrapper > .timeline-date-wrapper:last-child { display: none; }
+    .timeline-handle { background: var(--oh-cyan) !important; width: 2px; } }
+}
+#topic-footer-buttons .topic-footer-main-buttons { gap: 16px; }
+
+// Suggested topics: the container already pads, so the list must not pad twice; heading = mono label + rule
+#suggested-topics.more-topics__list { padding: 0; }
+.more-topics__list-title { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; padding: 0; font-family: var(--oh-font-mono); font-size: 11px; line-height: 14px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--oh-ink);
+  &::after { content: ""; flex: 1; height: 1px; background: var(--oh-line); } }
+.more-topics__browse-more { margin: 16px 0 0; padding: 0; }
+.more-topics__list {
+  .topic-list-header th, .topic-list-header .default { font-family: var(--oh-font-mono); font-size: 10px; line-height: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 400; color: var(--oh-ink-muted); padding: 12px 20px; background: var(--oh-surface-200); }
+  .discourse-tags { display: none; }
+}
