@@ -331,11 +331,10 @@ body {
 
 .oh-card {
   transition: transform 0.12s ease-out;
-  &:hover { transform: translateY(-2px); .oh-card__in { background: var(--oh-surface-100); } .oh-card { background: var(--oh-line-strong); } }
   background: var(--oh-line-mid);
   padding: 1px;
   @include oh-chamfer-card(16px);
-  &:hover { background: var(--oh-line-strong); }
+  &:hover { transform: translateY(-2px); background: var(--oh-line-strong); }
   &__in { background: var(--oh-surface-100); padding: 24px; display: flex; flex-wrap: wrap; gap: 28px; @include oh-chamfer-card(16px); }
   &__info { flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
   &__recent { flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
