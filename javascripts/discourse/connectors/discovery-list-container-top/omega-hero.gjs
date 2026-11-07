@@ -23,9 +23,9 @@ export default class OmegaHero extends Component {
     const s = this.stats || {};
     const fmt = (n) => (n == null ? "–" : n.toLocaleString("en-US"));
     return [
-      ["Topics", fmt(s.topic_count)],
-      ["Posts", fmt(s.post_count)],
-      ["Members", fmt(s.user_count)],
+      ["Topics", fmt(s.topics_count)],
+      ["Posts", fmt(s.posts_count)],
+      ["Members", fmt(s.users_count)],
       ["Active · 30 days", fmt(s.active_users_30_days), true],
     ];
   }
@@ -34,7 +34,7 @@ export default class OmegaHero extends Component {
     {{#if this.show}}
       <section class="oh-hero">
         <div class="oh-hero__main">
-          <div class="oh-eyebrow">Duelists Unite · Community forum</div>
+          <div class="oh-eyebrow"><i class="oh-eyebrow__sq"></i>Duelists Unite · Community forum</div>
           <h1>A hub for duelists that play card games.</h1>
           <p>A place where Duelists from all different trading card games gather to duel. Home of YGO Omega, a free online automatic Yu-Gi-Oh simulator.</p>
           {{#unless this.currentUser}}
