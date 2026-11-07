@@ -9,4 +9,6 @@ const Social = <template>
 
 export default apiInitializer((api) => {
   api.headerIcons?.add("oh-social", Social, { before: "search" });
+  // Core hides the footer on lists that can load more; our design wants it on every page
+  api.container.lookup("service:footer")._showFooterOverride = true;
 });

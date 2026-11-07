@@ -637,3 +637,36 @@ body.category {
 // Roomier stats cells in the category header
 .oh-cat__side { flex: 1 1 380px; max-width: 520px; }
 .oh-stats--3 .oh-stat { padding: 20px 22px; gap: 12px; min-width: 0; &__n { font-size: 36px; } }
+
+// ---------- Topic page: layout verified against the live DOM ----------
+.container.posts {
+  display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;
+  max-width: 1280px; margin: 0 auto; padding: 32px 40px; box-sizing: border-box; width: 100%;
+  > .row { order: 1; flex: 999 1 600px; min-width: 0; margin: 0; width: auto; }
+  > .topic-navigation { order: 2; flex: 1 1 300px; max-width: 340px; position: sticky; top: 88px; width: auto; margin: 0; }
+  > .topic-map.--bottom { display: none; }
+  .timeline-container { position: static; width: auto; margin: 0; padding: 0; }
+  // 1px steel frame with the chamfered corner, posts separated by 1px rules
+  .topic-area {
+    padding: 1px; max-width: none; width: 100%; background: var(--oh-line-mid);
+    @include oh-chamfer-card(16px);
+    .post-stream { background: var(--oh-line); display: flex; flex-direction: column; @include oh-chamfer-card(16px); }
+  }
+}
+.topic-post {
+  article.boxed { background: var(--oh-surface-100); border: 0; border-top: 1px solid var(--oh-line); padding: 24px; box-sizing: border-box; }
+  &:first-of-type article.boxed { border-top: 0; }
+  .post__row { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 0 20px; padding: 0; margin: 0; border: 0; }
+  .topic-avatar { width: 48px; padding: 0; float: none; img.avatar { width: 48px; height: 48px; border-radius: 0; } }
+  .topic-body { width: auto; float: none; padding: 0; border: 0; background: transparent; min-width: 0; }
+  .topic-meta-data { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; padding: 0 0 14px; width: auto;
+    .names { flex: 0 1 auto; display: flex; gap: 10px; align-items: baseline; width: auto; float: none; }
+    .post-infos { margin-left: auto; float: none; width: auto; } }
+  .cooked { ol, ul { padding-left: 22px; margin: 0 0 12px; } p { margin: 0 0 12px; } }
+  .names a { font-size: 15px; font-weight: 700; color: var(--oh-ink); }
+  .post-info.post-date a { font-family: var(--oh-font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--oh-ink-muted); }
+  .post__topic-map { width: 100%; margin: 16px 0 0; padding: 0; border-top: 1px solid var(--oh-line);
+    .topic-map__contents { width: auto; padding: 12px 0 0; }
+    .topic-map__stats { display: flex; gap: 16px; align-items: center; } }
+}
+@media (max-width: 720px) { .container.posts { padding: 16px; } .topic-post article.boxed { padding: 16px; } }
