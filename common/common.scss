@@ -255,6 +255,7 @@ html { overflow-x: clip; }
 // Hero
 .oh-hero {
   position: relative;
+  isolation: isolate;
   padding-top: 56px;
   padding-bottom: 56px;
   &::before {
