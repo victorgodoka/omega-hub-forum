@@ -1008,3 +1008,227 @@ body { background-color: transparent; background-image: none; }
   .badge-icon { &.badge-type-gold { color: var(--oh-gold); } &.badge-type-silver { color: var(--oh-line-strong); } &.badge-type-bronze { color: var(--oh-azure-lift); } }
 }
 @media (max-width: 720px) { .container.badges { padding-left: 16px; padding-right: 16px; } }
+
+// ---------- Staff and account surfaces ----------
+// Omega Hub Night (claude.ai/artifact/XSCde4E1pccXFvjSFbMddA).
+// Adapt native Discourse components; keep floating layers and focus rings unclipped.
+.reviewable {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding: 28px 40px 56px;
+  box-sizing: border-box;
+  min-width: 0;
+
+  > .horizontal-overflow-nav { border-bottom: 1px solid var(--oh-line); }
+  .reviewable-container { max-width: none; padding: 24px 0 0; }
+  .reviewable-title { margin: 0; }
+  .reviewable-filters {
+    display: flex;
+    flex-wrap: wrap;
+    clip-path: none;
+    border-radius: 0;
+    gap: 16px;
+    align-items: end;
+  }
+  .reviewable-filter { flex: 1 1 220px; min-width: 0; }
+  .filter-label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: var(--oh-font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--oh-ink-muted);
+  }
+  .reviewable-filters-actions { gap: 12px; flex-wrap: wrap; }
+  .no-review {
+    padding: 40px 24px;
+    border: 1px solid var(--oh-line);
+    background: var(--oh-surface-100);
+    color: var(--oh-ink-dim);
+    text-align: center;
+  }
+}
+
+// Reset the global discovery-tab spacing for account and staff navigation.
+.reviewable .nav-pills,
+.user-main .nav-pills,
+.admin-interface .nav-pills {
+  gap: 8px 24px;
+  > li > a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 8px 4px;
+    margin: 0;
+    line-height: 1.5;
+    box-sizing: border-box;
+    .d-icon { color: currentColor; }
+  }
+  > li.active > a,
+  > li > a.active {
+    color: var(--oh-cyan);
+    background: transparent;
+    box-shadow: inset 0 -2px 0 var(--oh-cyan);
+  }
+}
+
+// Profile header and account forms are surfaces, not the default grey sheet.
+.user-main {
+  .collapsed-info.about,
+  .user-content { background: transparent; }
+  .collapsed-info .details { background: var(--oh-surface-100); clip-path: none; padding: 20px; }
+  .user-navigation-secondary { margin-bottom: 24px; border-color: var(--oh-line); }
+  .user-preferences {
+    background: var(--oh-surface-100);
+    border: 1px solid var(--oh-line-mid);
+    padding: 24px;
+    box-sizing: border-box;
+    min-width: 0;
+    .form-vertical { max-width: 760px; }
+    .control-group {
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--oh-line);
+    }
+    .control-label {
+      font-family: var(--oh-font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--oh-ink);
+      margin-bottom: 12px;
+    }
+    .instructions { color: var(--oh-ink-muted); line-height: 1.6; }
+    .controls, .emails, .associated-accounts { max-width: 100%; }
+    .email { overflow-wrap: anywhere; }
+    .associated-accounts td { border-color: var(--oh-line); }
+  }
+  .notification-history {
+    background: var(--oh-surface-100);
+    border: 1px solid var(--oh-line-mid);
+    .notification {
+      background: var(--oh-surface-100);
+      border-bottom: 1px solid var(--oh-line);
+      color: var(--oh-ink-dim);
+      &.unread { background: var(--oh-ground-cyan); box-shadow: inset 2px 0 var(--oh-cyan); }
+      &:hover, &:focus-within { background: var(--oh-surface-300); }
+      a { color: var(--oh-ink); }
+      .d-icon, .relative-date { color: var(--oh-ink-muted); }
+      &.unread .d-icon { color: var(--oh-cyan); }
+    }
+  }
+}
+
+// SelectKit popovers can be portalled out of the page that owns the control.
+.select-kit {
+  .select-kit-header {
+    background: var(--oh-surface-200);
+    border-color: var(--oh-line-strong);
+    color: var(--oh-ink);
+    border-radius: 0;
+    .d-icon { color: var(--oh-ink-muted); }
+  }
+  .select-kit-body {
+    background: var(--oh-surface-100);
+    color: var(--oh-ink);
+    border-color: var(--oh-line-mid);
+    border-radius: 0;
+    box-shadow: 0 12px 32px rgb(0 0 0 / 40%);
+  }
+  .select-kit-row {
+    color: var(--oh-ink-dim);
+    &.is-selected { color: var(--oh-cyan); background: var(--oh-ground-cyan); }
+    &.is-highlighted, &:hover { color: var(--oh-ink); background: var(--oh-surface-300); }
+  }
+}
+
+.menu-panel,
+.fk-d-menu,
+.d-dropdown-menu {
+  background: var(--oh-surface-100);
+  color: var(--oh-ink-dim);
+  border: 1px solid var(--oh-line-mid);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 40%);
+  border-radius: 0;
+}
+.user-menu.revamped {
+  .panel-body, .quick-access-panel, .panel-body-bottom { background: var(--oh-surface-100); }
+  .menu-tabs-container { background: var(--oh-surface-200); border-color: var(--oh-line); }
+  .tabs-list .btn {
+    color: var(--oh-ink-muted);
+    background: transparent;
+    .d-icon { color: currentColor; }
+    &:hover { color: var(--oh-ink); background: var(--oh-surface-300); }
+    &[aria-selected="true"], &.active {
+      color: var(--oh-cyan);
+      background: var(--oh-ground-cyan);
+      box-shadow: inset 2px 0 var(--oh-cyan);
+    }
+  }
+  .notifications li, .quick-access-panel li {
+    background: var(--oh-surface-100);
+    border-color: var(--oh-line);
+    a { color: var(--oh-ink); }
+    .d-icon { color: var(--oh-ink-muted); }
+    &.unread {
+      background: var(--oh-ground-cyan);
+      box-shadow: inset 2px 0 var(--oh-cyan);
+      .d-icon { color: var(--oh-cyan); }
+    }
+    &:hover, &:focus-within { background: var(--oh-surface-300); }
+  }
+  .panel-body-bottom { border-top: 1px solid var(--oh-line); }
+  .quick-access-panel .profile-tab-btn {
+    color: var(--oh-ink);
+    .d-icon { color: var(--oh-ink-muted); }
+    &:hover, &:focus-visible { background: var(--oh-surface-300); color: var(--oh-cyan); }
+  }
+}
+
+.admin-interface {
+  --sidebar-background: var(--oh-surface-100);
+  --sidebar-highlight-background: var(--oh-ground-cyan);
+  --sidebar-highlight-color: var(--oh-cyan);
+  --sidebar-hover-background: var(--oh-surface-300);
+  --sidebar-color: var(--oh-ink-dim);
+  --sidebar-section-link-prefix-color: var(--oh-ink-muted);
+
+  #main-outlet { min-width: 0; padding: 24px 32px 56px; box-sizing: border-box; }
+  .admin-content { background: transparent; min-width: 0; }
+  .admin-contents { max-width: 1280px; width: 100%; margin-inline: auto; }
+  .sidebar-wrapper { background: var(--oh-surface-100); border-right: 1px solid var(--oh-line); }
+  .sidebar-section-link {
+    color: var(--oh-ink-dim);
+    &.active { background: var(--oh-ground-cyan); color: var(--oh-cyan); box-shadow: inset 2px 0 var(--oh-cyan); }
+    &:hover { background: var(--oh-surface-300); color: var(--oh-ink); }
+  }
+  .dashboard-stats, .admin-report {
+    background: var(--oh-surface-100);
+    border: 1px solid var(--oh-line-mid);
+    border-radius: 0;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .dashboard-stats { margin-bottom: 24px; }
+  .admin-report { min-width: 0; }
+  .admin-report h3 { font-size: 22px; }
+  .admin-report table, .admin-contents table {
+    th { background: var(--oh-surface-200); color: var(--oh-ink-muted); }
+    td, th { border-color: var(--oh-line); }
+  }
+  .admin-config-area, .admin-detail, .settings { background-color: var(--oh-surface-100); }
+}
+
+@media (max-width: 720px) {
+  .reviewable { padding: 20px 16px 40px; }
+  .reviewable .reviewable-filters { padding: 16px; flex-wrap: wrap; }
+  .reviewable .reviewable-filter { min-width: 0; flex: 1 1 200px; }
+  .reviewable .reviewable-filters-actions { width: 100%; }
+  .user-main .user-preferences { padding: 16px; }
+  .user-main .collapsed-info .details { padding: 16px; }
+  .admin-interface #main-outlet { padding: 20px 16px 40px; }
+}
