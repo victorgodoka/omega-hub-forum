@@ -93,34 +93,46 @@ select,
   border-radius: 0;
 }
 
-// Primary button: cyan plate, hard azure offset shadow, chamfer
+// Primary button: cyan plate, hard azure offset shadow, chamfer.
+// The shadow lives inside the clip-path (extended polygon) so it is not cut off.
 .btn-primary {
+  --sh: 4px;
   background: var(--oh-cyan);
   color: var(--oh-cyan-on);
   border: 0;
-  filter: drop-shadow(4px 4px 0 var(--oh-azure));
-  @include oh-chamfer-control;
-  transition: filter 0.1s, transform 0.1s;
+  box-shadow: var(--sh) var(--sh) 0 var(--oh-azure);
+  clip-path: polygon(
+    8px 0, 100% 0, 100% var(--sh), calc(100% + var(--sh)) var(--sh),
+    calc(100% + var(--sh)) calc(100% - var(--sh)), calc(100% - var(--sh)) calc(100% + var(--sh)),
+    var(--sh) calc(100% + var(--sh)), var(--sh) 100%, 0 100%, 0 8px
+  );
+  margin: 0 4px 4px 0;
+  transition: box-shadow 0.1s, transform 0.1s;
 
   .d-icon { color: var(--oh-cyan-on); }
 
   &:hover,
   &:focus-visible {
+    --sh: 2px;
     background: var(--oh-cyan);
     color: var(--oh-cyan-on);
-    filter: drop-shadow(2px 2px 0 var(--oh-azure));
     transform: translate(2px, 2px);
   }
 }
 
-// Secondary buttons: steel edge
+// Secondary buttons: steel edge that follows the chamfer
 .btn-default {
-  background: var(--oh-surface-200);
+  --fill: var(--oh-surface-100);
   color: var(--oh-ink);
-  border: 1px solid var(--oh-line-strong);
+  border: 0;
+  background:
+    linear-gradient(135deg, transparent 5.2px, var(--oh-line-strong) 5.2px 6.4px, var(--fill) 6.4px) top left / 8px 8px no-repeat,
+    linear-gradient(-45deg, transparent 5.2px, var(--oh-line-strong) 5.2px 6.4px, var(--fill) 6.4px) bottom right / 8px 8px no-repeat,
+    var(--fill);
+  box-shadow: inset 0 0 0 1px var(--oh-line-strong);
   @include oh-chamfer-control;
 
-  &:hover { background: var(--oh-surface-300); color: var(--oh-ink); }
+  &:hover, &:focus-visible { --fill: var(--oh-surface-300); color: var(--oh-ink); }
 }
 
 .btn-danger { background: var(--oh-crimson); color: var(--oh-ink); }
@@ -440,3 +452,9 @@ html { overflow-x: clip; }
 
 // One H1 on home: the hero H1 replaces Discourse's sr-only "All categories"
 .categories-list .list-controls h1.sr-only { display: none; }
+
+// Tabs row: no stray gap under the nav so the cyan underline sits on the rule
+.list-controls { padding-bottom: 0; }
+.list-controls .container,
+.list-controls .container > *,
+.list-controls .navigation-container { margin-bottom: 0; padding-bottom: 0; }
