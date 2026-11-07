@@ -980,3 +980,5 @@ body { background-color: transparent; background-image: none; }
   .topic-list-header th, .topic-list-header .default { font-family: var(--oh-font-mono); font-size: 10px; line-height: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 400; color: var(--oh-ink-muted); padding: 12px 20px; background: var(--oh-surface-200); }
   .discourse-tags { display: none; }
 }
+.topic-post .post-infos { display: flex; align-items: center; gap: 12px; }
+.oh-postnum { margin-left: 0; }

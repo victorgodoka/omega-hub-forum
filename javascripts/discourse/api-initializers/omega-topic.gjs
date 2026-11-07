@@ -106,9 +106,6 @@ class Participants extends Component {
   </template>
 }
 
-// Post number next to the date
-const PostNum = <template><span class="oh-signal oh-postnum">#{{@outletArgs.post.post_number}}</span></template>;
-
 const AboveSuggested = <template>
   <div class="oh-bottom"><AutoAd @id="oh-ad-topic-bottom" @size="lb" @note="Leaderboard · above suggested" /></div>
 </template>;
@@ -118,6 +115,20 @@ export default apiInitializer((api) => {
   api.renderInOutlet("topic-above-post-stream", TopicMap);
   api.renderInOutlet("topic-title", Crumbs);
   api.renderInOutlet("topic-navigation", Participants);
-  api.renderInOutlet("post-meta-data-infos", PostNum);
+  // Post number next to the date (the old post-meta-data-infos outlet no longer renders)
+  api.decorateCookedElement(
+    (el, helper) => {
+      const n = helper?.getModel?.()?.post_number;
+      const infos = el.closest("article")?.querySelector(".post-infos");
+      if (!n || !infos || infos.querySelector(".oh-postnum")) {
+        return;
+      }
+      const span = document.createElement("span");
+      span.className = "oh-signal oh-postnum";
+      span.textContent = `#${n}`;
+      infos.querySelector(".post-info.post-date")?.after(span);
+    },
+    { id: "oh-postnum" }
+  );
   api.renderInOutlet("topic-above-suggested", AboveSuggested);
 });
