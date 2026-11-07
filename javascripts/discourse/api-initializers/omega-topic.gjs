@@ -25,6 +25,31 @@ const day = (iso) => {
 };
 const av = (u) => u?.avatar_template?.replace("{size}", "48");
 
+// Participants list inside the timeline card
+class Participants extends Component {
+  get list() {
+    return (this.args.outletArgs?.model?.details?.participants || []).slice(0, 8).map((p) => ({
+      name: p.username,
+      avatar: av(p),
+      count: p.post_count,
+    }));
+  }
+  <template>
+    {{#if this.list.length}}
+      <div class="oh-parts">
+        <span class="oh-signal">Participants</span>
+        {{#each this.list as |p|}}
+          <div class="oh-parts__row">
+            <img src={{p.avatar}} alt="" width="24" height="24" />
+            <a href="/u/{{p.name}}">{{p.name}}</a>
+            <span class="oh-signal">{{p.count}} posts</span>
+          </div>
+        {{/each}}
+      </div>
+    {{/if}}
+  </template>
+}
+
 // Stat cells under the title: Created / Last reply / Replies / Views / Users
 class TopicMap extends Component {
   get t() {
@@ -55,12 +80,70 @@ class TopicMap extends Component {
   </template>
 }
 
+// Breadcrumb above the title: Categories / Parent / Category
+class Crumbs extends Component {
+  get items() {
+    const c = this.args.outletArgs.model?.category;
+    if (!c) {
+      return [];
+    }
+    const path = [c.parentCategory, c].filter(Boolean);
+    return path.map((x) => ({ name: x.name, url: `/c/${x.slug}/${x.id}` }));
+  }
+  <template>
+    <nav class="oh-bc oh-signal" aria-label="Breadcrumb">
+      <a href="/categories">Categories</a>
+      {{#each this.items as |i|}}<span>/</span><a href={{i.url}}>{{i.name}}</a>{{/each}}
+    </nav>
+  </template>
+}
+
+// Last activity + participants, shown under the timeline
+class Participants extends Component {
+  get t() {
+    return this.args.outletArgs.topic;
+  }
+  get last() {
+    const iso = this.t?.last_posted_at;
+    if (!iso) {
+      return "";
+    }
+    const d = Math.floor((Date.now() - new Date(iso)) / 864e5);
+    return `${day(iso)} · ${d}d ago`;
+  }
+  get people() {
+    return (this.t?.details?.participants || []).map((p) => ({
+      name: p.username,
+      avatar: av(p),
+      posts: `${p.post_count} post${p.post_count === 1 ? "" : "s"}`,
+    }));
+  }
+  <template>
+    <div class="oh-parts">
+      <div class="oh-parts__last oh-signal">{{this.last}}</div>
+      <div class="oh-parts__h oh-signal">Participants</div>
+      {{#each this.people as |p|}}
+        <div class="oh-parts__p">
+          <img src={{p.avatar}} alt="" width="22" height="22" /><span>{{p.name}}</span><span class="oh-signal">{{p.posts}}</span>
+        </div>
+      {{/each}}
+    </div>
+  </template>
+}
+
+// Post number next to the date
+const PostNum = <template><span class="oh-signal oh-postnum">#{{@outletArgs.post.post_number}}</span></template>;
+
 const AboveSuggested = <template>
   <div class="oh-bottom"><AutoAd @id="oh-ad-topic-bottom" @size="lb" @note="Leaderboard · above suggested" /></div>
 </template>;
 
 export default apiInitializer((api) => {
   api.renderAfterWrapperOutlet("post-article", AfterPost);
-  api.renderInOutlet("topic-above-posts", TopicMap);
+  api.renderInOutlet("topic-above-post-stream", TopicMap);
+  api.renderInOutlet("timeline-footer-controls-after", Participants);
+  api.renderInOutlet("topic-title", Crumbs);
+  api.renderInOutlet("topic-navigation", Participants);
+  api.renderInOutlet("post-meta-data-infos", PostNum);
   api.renderInOutlet("topic-above-suggested", AboveSuggested);
 });
