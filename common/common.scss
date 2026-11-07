@@ -694,3 +694,96 @@ body.category {
 .more-topics__list { .topic-list { background: var(--oh-line); } }
 .more-topics__browse-more { font-family: var(--oh-font-sans); text-transform: none; font-size: 14px; line-height: 22px; font-weight: 400; color: var(--oh-ink-dim); }
 @media (max-width: 720px) { .oh-map-wrap, #topic-footer-buttons, .more-topics__container { padding-left: 16px; padding-right: 16px; margin-left: 0; } }
+
+// ---------- Latest / flat topic lists: ads + no repeated nav ----------
+// Discourse repeats the tabs row (+ New Topic) under the list; the design has it once, on top.
+.list-container .navigation-container, .topic-list-bottom .navigation-container { display: none; }
+body.navigation-topics {
+  .list-container.--topic-list,
+  .list-container.--topic-list > .row,
+  .list-container.--topic-list > .row > div { display: contents; }
+  .list-controls { order: 0; }
+  .oh-latest__top { order: 1; }
+  #list-area .contents, .topic-list-bottom { order: 2; width: 100%; max-width: 1280px; margin-left: auto; margin-right: auto; padding-left: 40px; padding-right: 40px; box-sizing: border-box; }
+  .oh-latest__bottom { order: 3; }
+  .oh-footer { order: 9; }
+}
+.oh-latest__top, .oh-latest__bottom { width: 100%; max-width: 1280px; margin: 0 auto; box-sizing: border-box; display: flex; justify-content: center; padding: 0 40px; }
+.oh-latest__top { padding-top: 24px; padding-bottom: 8px; }
+.oh-latest__bottom { padding-top: 24px; padding-bottom: 56px; }
+@media (max-width: 720px) {
+  body.navigation-topics #list-area .contents, body.navigation-topics .topic-list-bottom, .oh-latest__top, .oh-latest__bottom { padding-left: 16px; padding-right: 16px; }
+}
+
+// ---------- Secondary pages: shared frame ----------
+// About, groups, directory, review, birthdays, profile, calendar: same 1280 column as the rest
+.about-page .contents.body-page,
+.groups-index,
+.users-directory,
+.users-page .container,
+.reviewable-container,
+.container.cakeday,
+.user-main,
+.fc {
+  width: 100%; max-width: 1280px; margin-left: auto; margin-right: auto;
+  padding-left: 40px; padding-right: 40px; box-sizing: border-box;
+}
+.about-page .contents.body-page, .groups-index, .container.cakeday, .reviewable-container { padding-top: 28px; padding-bottom: 56px; }
+.users-page .container, .user-main { padding-top: 28px; padding-bottom: 56px; }
+.fc { padding-top: 28px; padding-bottom: 56px; }
+@media (max-width: 720px) {
+  .about-page .contents.body-page, .groups-index, .users-directory, .users-page .container, .reviewable-container, .container.cakeday, .user-main, .fc { padding-left: 16px; padding-right: 16px; }
+}
+// Page headings: display font, section headings in mono signal style
+.about__header h1, .about-page h1, .cakeday-header { font-family: var(--oh-font-display); text-transform: uppercase; font-weight: 400; font-size: 40px; line-height: 1; color: var(--oh-ink); margin: 0 0 20px; }
+.about__main-content h3, .about-page h3, .groups-index h3.group-box-title { font-family: var(--oh-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--oh-ink); }
+.about-page .about__main-content { gap: 32px; }
+
+// Groups: steel-framed chamfered cards
+.groups-boxes { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin: 0;
+  .group-box { background: var(--oh-surface-100); border: 1px solid var(--oh-line-mid); border-radius: 0; margin: 0; width: auto; @include oh-chamfer-card(12px);
+    transition: transform 0.12s ease-out, border-color 0.12s ease-out;
+    &:hover { transform: translateY(-2px); border-color: var(--oh-line-strong); }
+    .group-info-name, .group-name, h3 { font-family: var(--oh-font-display); font-weight: 400; text-transform: uppercase; color: var(--oh-ink); } } }
+.groups-header { margin-bottom: 20px; gap: 12px; }
+
+// User directory: the design's 1px-gap table
+.directory-table, .users-directory table {
+  border: 1px solid var(--oh-line); background: var(--oh-line); border-collapse: separate; border-spacing: 0;
+  .directory-table__header, thead { background: var(--oh-surface-200); }
+  .directory-table__column-header, th { font-family: var(--oh-font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--oh-ink-muted); padding: 12px 20px; }
+  .directory-table__row, tr { background: var(--oh-surface-100); border-bottom: 1px solid var(--oh-line); transition: background 0.12s ease-out;
+    &:hover { background: var(--oh-surface-300); }
+    &.me, &.highlighted { background: var(--oh-ground-cyan); } }
+  .directory-table__cell, td { color: var(--oh-ink); padding: 14px 20px; }
+  .number { font-family: var(--oh-font-mono); font-size: 13px; letter-spacing: 0.04em; color: var(--oh-ink); }
+}
+.directory .period-chooser, .directory .period-chooser h2 { font-family: var(--oh-font-display); text-transform: uppercase; color: var(--oh-ink); }
+
+// Review queue + calendar + cakeday
+.reviewable-filters { background: var(--oh-surface-100); border: 1px solid var(--oh-line-mid); padding: 16px 20px; @include oh-chamfer-card(12px); margin-bottom: 24px; }
+.reviewable-item { background: var(--oh-surface-100); border: 1px solid var(--oh-line-mid); border-radius: 0; margin-bottom: 16px; }
+.fc {
+  --fc-border-color: var(--oh-line);
+  --fc-page-bg-color: var(--oh-space-000);
+  --fc-neutral-bg-color: var(--oh-surface-100);
+  --fc-today-bg-color: var(--oh-ground-cyan);
+  --fc-event-bg-color: var(--oh-azure);
+  --fc-event-border-color: var(--oh-azure);
+  --fc-button-bg-color: var(--oh-surface-100);
+  --fc-button-border-color: var(--oh-line-strong);
+  --fc-button-hover-bg-color: var(--oh-surface-300);
+  --fc-button-hover-border-color: var(--oh-line-strong);
+  --fc-button-active-bg-color: var(--oh-surface-300);
+  --fc-button-active-border-color: var(--oh-cyan);
+  color: var(--oh-ink-dim);
+  .fc-toolbar-title { font-family: var(--oh-font-display); text-transform: uppercase; font-weight: 400; font-size: 28px; color: var(--oh-ink); }
+  .fc-col-header-cell-cushion { font-family: var(--oh-font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--oh-ink-muted); }
+  .fc-button { border-radius: 0; font-family: var(--oh-font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--oh-ink); }
+  .fc-daygrid-day-number { color: var(--oh-ink-dim); font-family: var(--oh-font-mono); font-size: 12px; }
+}
+
+// Profile: header band + panels
+.user-main .collapsed-info .details { background: var(--oh-surface-100); border: 1px solid var(--oh-line-mid); padding: 16px 20px; @include oh-chamfer-card(16px); }
+.user-main .user-navigation-primary { border-bottom: 1px solid var(--oh-line); margin: 16px 0; }
+.user-main .paginated-topics-list, .user-main .user-stream { margin-top: 8px; }
