@@ -117,9 +117,10 @@ export default apiInitializer((api) => {
   api.renderInOutlet("topic-navigation", Participants);
   // Post number next to the date (the old post-meta-data-infos outlet no longer renders)
   api.decorateCookedElement(
-    (el, helper) => {
-      const n = helper?.getModel?.()?.post_number;
-      const infos = el.closest("article")?.querySelector(".post-infos");
+    (el) => {
+      const article = el.closest("article");
+      const n = article?.id?.replace("post_", "");
+      const infos = article?.querySelector(".post-infos");
       if (!n || !infos || infos.querySelector(".oh-postnum")) {
         return;
       }
