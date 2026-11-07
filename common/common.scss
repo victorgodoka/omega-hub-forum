@@ -607,7 +607,7 @@ html { overflow-x: clip; }
   .names .second a { font-size: 13px; font-weight: 400; color: var(--oh-ink-muted); }
   .post-info .post-date, .post-info a.post-number { font-family: var(--oh-font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--oh-ink-muted); }
   .user-title, .user-badge-button-moderator { font-family: var(--oh-font-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; background: var(--oh-surface-200); color: var(--oh-azure-lift); padding: 3px 8px; @include oh-chamfer-control(6px); }
-  .post-controls .btn { background: transparent; color: var(--oh-ink-muted); &:hover { color: var(--oh-ink); background: var(--oh-surface-300); } }
+  .post-controls .btn:not(.pickable-reaction):not(.emoji-picker-trigger) { background: transparent; color: var(--oh-ink-muted); &:hover { color: var(--oh-ink); background: var(--oh-surface-300); } }
 }
 .topic-avatar img.avatar { width: 48px; height: 48px; border-radius: 0; }
 aside.quote, blockquote { background: var(--oh-surface-200); border: 1px solid var(--oh-line); border-radius: 0;
@@ -677,11 +677,10 @@ body.category {
   > .topic-navigation { order: 2; flex: 1 1 300px; max-width: 340px; position: sticky; top: 88px; width: auto; margin: 0; }
   > .topic-map.--bottom { display: none; }
   .timeline-container { position: static; width: auto; margin: 0; padding: 0; }
-  // 1px steel frame with the chamfered corner, posts separated by 1px rules
+  // Keep the frame open so reaction pickers can extend beyond the post stream.
   .topic-area {
     padding: 1px; max-width: none; width: 100%; background: var(--oh-line-mid);
-    @include oh-chamfer-card(16px);
-    .post-stream { background: var(--oh-line); display: flex; flex-direction: column; @include oh-chamfer-card(16px); }
+    .post-stream { background: var(--oh-line); display: flex; flex-direction: column; }
   }
 }
 .topic-post {
@@ -962,9 +961,68 @@ body { background-color: transparent; background-image: none; }
   .post__menu-area, .post-menu-area { margin: 14px 0 0; padding: 0; }
   .post-controls { margin: 0 0 0 -10px; padding: 0; width: auto;
     .actions { display: flex; align-items: center; gap: 4px; width: 100%; }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 40px; height: 40px; padding: 0 10px; background: transparent; color: var(--oh-ink-muted);
+    .btn:not(.pickable-reaction):not(.emoji-picker-trigger) { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 40px; height: 40px; padding: 0 10px; background: transparent; color: var(--oh-ink-muted);
       font-family: var(--oh-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
     .post-action-menu__reply { margin-left: auto; } }
+}
+
+// Reactions use the Omega palette even when the site's active color scheme differs.
+// Keep native positioning/column counts; post-action sizing must not widen the picker.
+.discourse-reactions-actions,
+.discourse-reactions-picker {
+  --primary: var(--oh-ink);
+  --secondary: var(--oh-surface-200);
+  --primary-very-low: var(--oh-surface-100);
+  --primary-low: var(--oh-surface-300);
+  --primary-low-mid: var(--oh-ink-dim);
+  --primary-medium: var(--oh-ink-muted);
+  --tertiary-low: var(--oh-cyan);
+  --d-selected: var(--oh-ground-cyan);
+  --love: var(--oh-cyan);
+  --love-low: var(--oh-ground-cyan);
+  --d-post-control-background--hover: var(--oh-ground-cyan);
+}
+
+.discourse-reactions-picker {
+  font-size: 16px;
+
+  .discourse-reactions-picker-container {
+    background: var(--oh-surface-200);
+    border: 1px solid var(--oh-line-mid);
+    border-radius: 0;
+    padding: 4px;
+    gap: 4px;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 35%);
+  }
+
+  .pickable-reaction,
+  .emoji-picker-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 32px;
+    min-width: 0;
+    height: 32px;
+    // The plugin sets these with !important; reset margins to keep its grid compact.
+    margin: 0 !important;
+    padding: 4px !important;
+    border-radius: 0;
+    background: transparent;
+    color: var(--oh-ink-muted);
+    box-shadow: none;
+    clip-path: none;
+
+    &:focus-visible {
+      outline: 2px solid var(--oh-cyan);
+      outline-offset: -2px;
+    }
+
+    &.is-used {
+      border-color: var(--oh-cyan) !important;
+      background: var(--oh-ground-cyan);
+    }
+  }
 }
 
 // Timeline card = one card: date / track / last date / participants (artboard)
