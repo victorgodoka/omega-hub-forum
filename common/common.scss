@@ -502,3 +502,53 @@ html { overflow-x: clip; }
   &__d { font-size: 14px; line-height: 22px; color: var(--oh-ink-dim); }
   .btn { display: inline-flex; align-items: center; gap: 8px; height: 42px; font-family: var(--oh-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
 }
+
+// ---------- Category page (omega-category.gjs) ----------
+// Reuse the home layout: flatten wrappers, cap width, order header -> tabs -> list
+.category-list-container, .list-container { max-width: 1280px; margin: 0 auto; padding: 0 40px; box-sizing: border-box; width: 100%; }
+.oh-cat, .oh-cat__subs, .oh-cat__topics-h {
+  width: 100%; max-width: 1280px; margin-left: auto; margin-right: auto;
+  padding-left: 40px; padding-right: 40px; box-sizing: border-box;
+}
+.oh-cat { padding-top: 28px; display: flex; flex-direction: column; gap: 16px; }
+.oh-cat__crumbs { display: flex; align-items: center; gap: 10px; a { font-size: 11px; font-weight: 700; } }
+.oh-cat__here { color: var(--oh-ink); font-size: 11px; font-weight: 700; }
+.oh-cat__in {
+  display: flex; flex-wrap: wrap; gap: 28px 40px; align-items: flex-end; padding: 32px;
+  background-image: radial-gradient(var(--oh-line) 1px, transparent 1.2px); background-size: 24px 24px;
+}
+.oh-cat__main { flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.oh-cat__main h1 { margin: 0; font-size: 48px; line-height: 1; }
+.oh-cat__desc { font-size: 16px; line-height: 26px; color: var(--oh-ink-dim); max-width: 680px; p { margin: 0; } }
+.oh-cat__side { flex: 1 1 300px; }
+.oh-stats--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 0; .oh-stat { padding: 14px 16px; gap: 8px; &__n { font-size: 28px; } } }
+.oh-cat__subs { padding-top: 40px; display: flex; flex-direction: column; gap: 20px; }
+.oh-subgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.oh-sub {
+  display: flex; align-items: center; gap: 10px; padding: 16px 18px;
+  background: var(--oh-surface-100); border: 1px solid var(--oh-line-mid); @include oh-chamfer-card(12px);
+  transition: transform 0.12s ease-out, border-color 0.12s ease-out;
+  &:hover { transform: translateY(-2px); border-color: var(--oh-line-strong); }
+  &__n { font-size: 15px; font-weight: 700; color: var(--oh-ink); }
+  .oh-signal { margin-left: auto; white-space: nowrap; }
+}
+.oh-cat__topics-h { padding-top: 48px; padding-bottom: 20px; }
+
+// Native topic list, restyled as the design's table
+.category-list, .topic-list {
+  background: var(--oh-line); border: 1px solid var(--oh-line);
+  thead { background: var(--oh-surface-200); }
+  th { color: var(--oh-ink-muted); font-size: 10px; letter-spacing: 0.16em; padding: 12px 20px; }
+  .topic-list-item { background: var(--oh-surface-100); border-bottom: 1px solid var(--oh-line); }
+  .topic-list-item:hover { background: var(--oh-surface-300); }
+  td { padding-top: 14px; padding-bottom: 14px; }
+  .main-link a.title { font-family: var(--oh-font-sans); font-size: 15px; line-height: 22px; font-weight: 700; text-transform: none; color: var(--oh-ink); &:hover { color: var(--oh-cyan); } }
+  .num, .activity { font-family: var(--oh-font-mono); font-size: 13px; color: var(--oh-ink-dim); }
+}
+// Category header replaces Discourse's own heading on category lists
+.category-heading, .category-title-header { display: none; }
+@media (max-width: 720px) {
+  .oh-cat, .oh-cat__subs, .oh-cat__topics-h, .list-container { padding-left: 16px; padding-right: 16px; }
+  .oh-cat__in { padding: 20px; }
+  .oh-cat__main h1 { font-size: 36px; }
+}
