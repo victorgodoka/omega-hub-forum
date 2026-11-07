@@ -1,28 +1,8 @@
+nitro_site_id:
+  type: string
+  default: ""
+  description: "Nitro site/loader ID: the XXXX in https://s.nitropay.com/ads-XXXX.js. Empty = no ads."
 ad_show_placeholders:
   type: bool
   default: false
-  description: "Show dashed placeholder boxes in empty ad slots (use on staging/preview only)."
-ad_sidebar_html:
-  type: string
-  textarea: true
-  max: 5000
-  default: ""
-  description: "Ad tag/HTML for the sticky 300x600 slot under the Latest column."
-ad_bottom_html:
-  type: string
-  textarea: true
-  max: 5000
-  default: ""
-  description: "Ad tag/HTML for the leaderboard (970x90) above the footer."
-ad_rail_left_html:
-  type: string
-  textarea: true
-  max: 5000
-  default: ""
-  description: "Ad tag/HTML for the left sticky siderail (160x600, screens 1640px+)."
-ad_rail_right_html:
-  type: string
-  textarea: true
-  max: 5000
-  default: ""
-  description: "Ad tag/HTML for the right sticky siderail (160x600, screens 1640px+)."
+  description: "Show dashed placeholder boxes in the ad slots when Nitro is not configured (staging/preview only)."

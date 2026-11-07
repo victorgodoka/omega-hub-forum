@@ -7,25 +7,50 @@ import { settings } from "virtual:theme";
 import { htmlSafe } from "@ember/template";
 import { ajax } from "discourse/lib/ajax";
 
-// Insert ad tag HTML and re-create <script> nodes so they execute
-function mount(html, el) {
-  const t = document.createElement("template");
-  t.innerHTML = html;
-  t.content.querySelectorAll("script").forEach((o) => {
-    const n = document.createElement("script");
-    [...o.attributes].forEach((a) => n.setAttribute(a.name, a.value));
-    n.text = o.text;
-    o.replaceWith(n);
-  });
-  el.replaceChildren(t.content);
+// ---- Nitro ads ----
+const SIZES = {
+  lb: [["970", "90"], ["728", "90"], ["320", "100"]],
+  half: [["300", "600"], ["300", "250"]],
+  rail: [["160", "600"]],
+};
+
+function loadNitro() {
+  if (!settings.nitro_site_id || document.getElementById("nitro-loader")) {
+    return;
+  }
+  window.nitroAds = window.nitroAds || {
+    createAd() {
+      return new Promise((r) => window.nitroAds.queue.push(["createAd", arguments, r]));
+    },
+    addUserToken() {
+      window.nitroAds.queue.push(["addUserToken", arguments]);
+    },
+    queue: [],
+  };
+  const el = document.createElement("script");
+  el.id = "nitro-loader";
+  el.async = true;
+  el.src = `https://s.nitropay.com/ads-${settings.nitro_site_id}.js`;
+  document.head.append(el);
 }
-const slot = (html) => ({ html, on: !!html || settings.ad_show_placeholders });
+
+function boot(id, size) {
+  loadNitro();
+  window.nitroAds.createAd(id, {
+    refreshLimit: 10,
+    refreshTime: 30,
+    renderVisibleOnly: false,
+    refreshVisibleOnly: true,
+    sizes: SIZES[size],
+    report: { enabled: true, wording: "Report Ad", position: "top-right" },
+  });
+}
 
 const Slot = <template>
   <aside class="oh-ad oh-ad--{{@size}}" aria-label="Advertisement">
     <span class="oh-signal">Advertisement</span>
-    {{#if @html}}
-      <div class="oh-ad__box" {{didInsert (fn mount @html)}}></div>
+    {{#if @live}}
+      <div id={{@id}} class="oh-ad__box" {{didInsert (fn boot @id @size)}}></div>
     {{else}}
       <div class="oh-ad__box oh-ad__box--ph">
         <span class="oh-ad__dims">{{@dims}}</span>
@@ -72,13 +97,12 @@ export default class OmegaHome extends Component {
     return this.router.currentRouteName === "discovery.categories";
   }
 
-  get ads() {
-    return {
-      left: slot(settings.ad_rail_left_html),
-      right: slot(settings.ad_rail_right_html),
-      side: slot(settings.ad_sidebar_html),
-      bottom: slot(settings.ad_bottom_html),
-    };
+  get live() {
+    return !!settings.nitro_site_id;
+  }
+
+  get adsOn() {
+    return this.live || settings.ad_show_placeholders;
   }
 
   get subCount() {
@@ -141,6 +165,11 @@ export default class OmegaHome extends Component {
   <template>
     {{#if this.show}}
       <div class="oh-home">
+        {{#if this.adsOn}}
+          <div class="oh-home__top">
+            <Slot @live={{this.live}} @id="oh-ad-top" @size="lb" @dims="970 × 90" @note="Leaderboard · 728 × 90 tablet · 320 × 100 mobile" />
+          </div>
+        {{/if}}
         <section class="oh-home__cats" aria-labelledby="oh-cat-h">
           <div class="oh-sec">
             <span class="oh-sec__n">01</span>
@@ -231,20 +260,20 @@ export default class OmegaHome extends Component {
               <div class="oh-lat__all"><a class="oh-signal" href="/latest">View all latest topics<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 11h11.2l-4.6-4.6L12 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"></path></svg></a></div>
             </div>
           </div>
-          {{#if this.ads.side.on}}
-            <Slot @html={{this.ads.side.html}} @size="half" @dims="300 × 600" @note="Half page · sticky" />
+          {{#if this.adsOn}}
+            <Slot @live={{this.live}} @id="oh-ad-side" @size="half" @dims="300 × 600" @note="Half page · sticky" />
           {{/if}}
         </aside>
-        {{#if this.ads.bottom.on}}
+        {{#if this.adsOn}}
           <div class="oh-home__bottom">
-            <Slot @html={{this.ads.bottom.html}} @size="lb" @dims="970 × 90" @note="Leaderboard · before footer" />
+            <Slot @live={{this.live}} @id="oh-ad-bottom" @size="lb" @dims="970 × 90" @note="Leaderboard · before footer" />
           </div>
         {{/if}}
-        {{#if this.ads.left.on}}
-          <div class="oh-rail oh-rail--l"><Slot @html={{this.ads.left.html}} @size="rail" @dims="160 × 600" @note="Siderail · sticky" /></div>
+        {{#if this.adsOn}}
+          <div class="oh-rail oh-rail--l"><Slot @live={{this.live}} @id="oh-ad-rail-l" @size="rail" @dims="160 × 600" @note="Siderail · sticky" /></div>
         {{/if}}
-        {{#if this.ads.right.on}}
-          <div class="oh-rail oh-rail--r"><Slot @html={{this.ads.right.html}} @size="rail" @dims="160 × 600" @note="Siderail · sticky" /></div>
+        {{#if this.adsOn}}
+          <div class="oh-rail oh-rail--r"><Slot @live={{this.live}} @id="oh-ad-rail-r" @size="rail" @dims="160 × 600" @note="Siderail · sticky" /></div>
         {{/if}}
       </div>
     {{/if}}

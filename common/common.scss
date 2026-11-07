@@ -252,7 +252,6 @@ html { overflow-x: clip; }
 .welcome-banner, .alert { order: 0; }
 .list-controls { order: 2; }
 .oh-home { order: 4; }
-.discovery-list-container-top-outlet.discourse-adplugin { order: 3; }
 .list-controls .container { padding: 0; max-width: none; }
 @media (max-width: 720px) {
   .oh-hero, .list-controls, .oh-home, .welcome-banner { padding-left: 16px; padding-right: 16px; }
@@ -461,13 +460,9 @@ html { overflow-x: clip; }
 .list-controls .navigation-container { margin-bottom: 0; padding-bottom: 0; }
 
 // ---------- Ads ----------
-// Top leaderboard comes from the Discourse Ad plugin ("topic list top"), placed under the tabs
-.discovery-list-container-top-outlet.discourse-adplugin {
-  width: 100%; max-width: 1280px; margin: 0 auto; padding: 32px 40px 0; box-sizing: border-box;
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  &:empty { display: none; }
-  &:not(:empty)::before { content: "Advertisement"; @extend .oh-signal; align-self: center; }
-}
+// Slots are Nitro (theme setting nitro_site_id); the Discourse Ad plugin is hidden on the home
+.categories-list .discourse-adplugin, .categories-list .adsense-ad, .categories-list .house-creative { display: none !important; }
+.oh-home__top { flex: 1 1 100%; display: flex; justify-content: center; }
 .oh-ad {
   display: flex; flex-direction: column; gap: 6px; max-width: 100%;
   &__box { max-width: 100%; }
