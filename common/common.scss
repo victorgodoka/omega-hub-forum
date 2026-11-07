@@ -436,13 +436,6 @@ html { overflow-x: clip; }
 }
 .oh-card__head { gap: 14px; }
 
-// Header: social links + auth buttons
-.d-header .oh-social {
-  display: flex; align-items: center; gap: 20px; padding-right: 8px; list-style: none;
-  a { font-family: var(--oh-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--oh-ink-dim); &:hover { color: var(--oh-ink); } }
-}
-@media (max-width: 1023px) { .d-header .oh-social { display: none; } }
-
 // Footer
 .powered-by-discourse { display: none; }
 .oh-footer {
