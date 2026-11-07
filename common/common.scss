@@ -606,3 +606,34 @@ pre, code { background: var(--oh-surface-200); border: 1px solid var(--oh-line);
   #topic-title, .topic-area, #suggested-topics { padding-left: 16px; padding-right: 16px; }
   .oh-post-ad { padding: 12px 16px; }
 }
+
+// ---------- Category page: single header, correct order ----------
+// Flatten the list wrappers so header -> ad -> subs -> "Topics" -> tabs -> list can be ordered
+body.category {
+  .list-controls .category-heading,
+  .list-controls .category-title-header,
+  .list-controls h1.sr-only,
+  #header-list-area { display: none !important; }
+
+  .list-container.--topic-list,
+  .list-container.--topic-list > .row,
+  .list-container.--topic-list > .row > div { display: contents; }
+
+  .oh-cat { order: 1; }
+  .oh-cat__ad { order: 2; }
+  .oh-cat__subs { order: 3; }
+  .oh-cat__topics-h { order: 4; }
+  .list-controls { order: 5; }
+  #list-area .contents, .topic-list-bottom { order: 6; width: 100%; max-width: 1280px; margin-left: auto; margin-right: auto; padding-left: 40px; padding-right: 40px; box-sizing: border-box; }
+  .oh-cat__bottom { order: 7; }
+  .oh-footer { order: 9; }
+}
+.list-controls .category-breadcrumb { display: none; }
+.oh-cat__bottom { width: 100%; max-width: 1280px; margin: 0 auto; padding: 24px 40px 56px; box-sizing: border-box; display: flex; justify-content: center; }
+@media (max-width: 720px) {
+  body.category #list-area .contents, body.category .topic-list-bottom, .oh-cat__bottom { padding-left: 16px; padding-right: 16px; }
+}
+
+// Roomier stats cells in the category header
+.oh-cat__side { flex: 1 1 380px; max-width: 520px; }
+.oh-stats--3 .oh-stat { padding: 20px 22px; gap: 12px; min-width: 0; &__n { font-size: 36px; } }

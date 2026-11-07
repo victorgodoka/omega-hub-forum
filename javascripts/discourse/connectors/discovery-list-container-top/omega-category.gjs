@@ -109,6 +109,7 @@ export default class OmegaCategory extends Component {
         <span class="oh-sec__rule"></span>
         <span class="oh-signal">Newest activity first</span>
       </div>
+      <div class="oh-cat__bottom"><AutoAd @id="oh-ad-cat-bottom" @size="lb" @note="Leaderboard · before footer" /></div>
     {{/if}}
   </template>
 }
