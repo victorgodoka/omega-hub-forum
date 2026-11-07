@@ -1,8 +1,14 @@
 import { apiInitializer } from "discourse/lib/api";
 
 // Header nav comes from the "header_links" theme setting (flat list; "parent" nests an item).
+// Icon value: an image URL, or inline <svg ...> markup pasted in the setting
+const iconSrc = (v) => {
+  v = (v || "").trim();
+  return v.startsWith("<svg") ? `data:image/svg+xml,${encodeURIComponent(v)}` : v;
+};
+
 function tree() {
-  const all = settings.header_links || [];
+  const all = (settings.header_links || []).map((l) => ({ ...l, icon: iconSrc(l.icon) }));
   return all
     .filter((l) => !l.parent)
     .map((l) => ({ ...l, items: all.filter((c) => c.parent && c.parent === l.label) }));
@@ -35,7 +41,7 @@ const Nav = <template>
 export default apiInitializer((api) => {
   // Optional icon overrides from theme settings (CSS mask, see common.scss)
   ["search", "chat", "menu"].forEach((k) => {
-    const url = settings[`icon_${k}`];
+    const url = iconSrc(settings[`icon_${k}`]);
     if (url) {
       document.documentElement.classList.add(`oh-ico-${k}`);
       document.documentElement.style.setProperty(`--oh-icon-${k}`, `url("${url}")`);
