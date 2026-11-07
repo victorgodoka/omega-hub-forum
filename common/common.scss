@@ -991,3 +991,20 @@ body { background-color: transparent; background-image: none; }
 .oh-postnum { margin-left: 0; }
 .topic-post .post__actions { margin: 0 !important; }
 .topic-post .solved-shared-issue-row { margin-top: 14px; }
+
+// ---------- Badges page ----------
+.container.badges {
+  width: 100%; max-width: 1280px; margin: 0 auto; padding: 28px 40px 56px; box-sizing: border-box;
+  h1 { font-family: var(--oh-font-display); font-weight: 400; text-transform: uppercase; font-size: 40px; line-height: 1; color: var(--oh-ink); margin: 0 0 20px; }
+  .badge-grouping h2 { font-family: var(--oh-font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--oh-ink-muted); margin: 28px 0 12px; }
+  .badge-group-list { gap: 16px; }
+  .badge-card { background: var(--oh-surface-100); border: 1px solid var(--oh-line-mid); border-radius: 0; @include oh-chamfer-card(12px);
+    transition: transform 0.12s ease-out, border-color 0.12s ease-out;
+    &:hover { transform: translateY(-2px); border-color: var(--oh-line-strong); }
+    h3, h3 a { font-family: var(--oh-font-display); font-weight: 400; text-transform: uppercase; color: var(--oh-ink); }
+    .badge-summary { color: var(--oh-ink-dim); }
+    .badge-granted, .badge-awarded { font-family: var(--oh-font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--oh-ink-muted); } }
+  // Medal tiers inside the palette instead of Discourse's orange
+  .badge-icon { &.badge-type-gold { color: var(--oh-gold); } &.badge-type-silver { color: var(--oh-line-strong); } &.badge-type-bronze { color: var(--oh-azure-lift); } }
+}
+@media (max-width: 720px) { .container.badges { padding-left: 16px; padding-right: 16px; } }
