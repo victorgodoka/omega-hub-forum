@@ -42,21 +42,41 @@ function chip(e) {
   return el;
 }
 
-async function paint() {
+async function paint(state) {
   const cells = [...document.querySelectorAll(".fc-daygrid-day[data-date]")];
   if (!cells.length) {
     return;
   }
-  const from = cells[0].dataset.date;
-  const last = new Date(`${cells.at(-1).dataset.date}T00:00:00`);
-  last.setDate(last.getDate() + 1);
-  const entries = await load(from, ymd(last));
+  const monthCell = cells.find((cell) => !cell.classList.contains("fc-day-other"));
+  if (!monthCell) {
+    return;
+  }
+  const month = monthCell.dataset.date.slice(0, 7);
+  if (state.range?.month !== month) {
+    const today = new Date();
+    const first = new Date(`${month}-01T00:00:00`);
+    const nextMonth = new Date(first.getFullYear(), first.getMonth() + 1, 1);
+    state.range = {
+      month,
+      from: !state.range && month === ymd(today).slice(0, 7) ? ymd(today) : ymd(first),
+      // The API's upper bound is exclusive: this includes the month's last day.
+      to: ymd(nextMonth),
+    };
+  }
+  const range = state.range;
+  const entries = await load(range.from, range.to);
+  if (state.range !== range) {
+    return;
+  }
 
   const byDay = {};
   for (const e of entries) {
     (byDay[ymd(new Date(e.startsAt))] ||= []).push(e);
   }
-  for (const cell of document.querySelectorAll(".fc-daygrid-day[data-date]")) {
+  for (const cell of cells) {
+    if (!cell.isConnected) {
+      continue;
+    }
     const host = cell.querySelector(".fc-daygrid-day-events");
     if (!host || host.querySelector(".oh-cal-list")) {
       continue;
@@ -86,12 +106,13 @@ export default apiInitializer((api) => {
       return;
     }
     // FullCalendar replaces cells on month change; repaint whenever they do.
+    const state = { range: null };
     let raf;
     observer = new MutationObserver(() => {
       cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(paint);
+      raf = requestAnimationFrame(() => paint(state));
     });
     observer.observe(document.getElementById("main-outlet"), { childList: true, subtree: true });
-    paint();
+    paint(state);
   });
 });
