@@ -30,6 +30,7 @@ function loadNitro() {
   const el = document.createElement("script");
   el.id = "nitro-loader";
   el.async = true;
+  el.setAttribute("data-cfasync", "false");
   el.src = `https://s.nitropay.com/ads-${settings.nitro_site_id}.js`;
   document.head.append(el);
 }

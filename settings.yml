@@ -1,6 +1,6 @@
 nitro_site_id:
   type: string
-  default: ""
+  default: "2429"
   description: "Nitro site/loader ID: the XXXX in https://s.nitropay.com/ads-XXXX.js. Empty = no ads."
 ad_show_placeholders:
   type: bool
