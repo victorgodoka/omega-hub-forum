@@ -39,8 +39,8 @@ export default class OmegaHero extends Component {
           <p>A place where Duelists from all different trading card games gather to duel. Home of YGO Omega, a free online automatic Yu-Gi-Oh simulator.</p>
           {{#unless this.currentUser}}
             <div class="oh-hero__cta">
-              <a class="btn btn-primary" href="/signup">Sign Up</a>
-              <a class="btn btn-default" href="https://discord.gg/" target="_blank" rel="noopener noreferrer">Discord</a>
+              <a class="btn btn-primary" href="/signup">Sign Up<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 11h11.2l-4.6-4.6L12 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"></path></svg></a>
+              <a class="btn btn-default" href="https://discord.gg/duelistsunite" target="_blank" rel="noopener noreferrer">Discord</a>
             </div>
           {{/unless}}
         </div>
