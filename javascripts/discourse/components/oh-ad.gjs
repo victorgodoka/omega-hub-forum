@@ -36,9 +36,12 @@ function boot(id, size) {
   window.nitroAds.createAd(id, {
     refreshLimit: 10,
     refreshTime: 30,
-    renderVisibleOnly: false,
+    // Ask only once the slot nears the screen: posts far down a topic otherwise fill unseen.
+    renderVisibleOnly: true,
     refreshVisibleOnly: true,
     sizes: SIZES[size],
+    // .oh-rail is display:none below 1640px (common.scss); without this the hidden rail still fills.
+    ...(size === "rail" && { mediaQuery: "(min-width: 1640px)" }),
     report: { enabled: true, wording: "Report Ad", position: "top-right" },
   });
 }
