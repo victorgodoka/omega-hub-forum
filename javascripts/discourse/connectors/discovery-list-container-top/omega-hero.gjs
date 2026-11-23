@@ -35,7 +35,7 @@ export default class OmegaHero extends Component {
       <section class="oh-hero">
         <div class="oh-hero__main">
           <div class="oh-eyebrow"><i class="oh-eyebrow__sq"></i>Duelists Unite · YGO Omega community forum</div>
-          <h1>YGO Omega forum: a hub for card game duelists</h1>
+          <h1>Duelists Unite Forum: a Hub for Yu-Gi-Oh! duelists</h1>
           <p>Home of YGO Omega, the free online automatic Yu-Gi-Oh simulator. Report bugs, share decks, get rulings, join tournaments and duel with players from every trading card game.</p>
           {{#unless this.currentUser}}
             <div class="oh-hero__cta">
