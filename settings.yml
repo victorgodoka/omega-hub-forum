@@ -61,3 +61,15 @@ icon_menu:
   type: string
   default: ""
   description: "Replaces the header navigation menu (hamburger) icon (same rules as the search icon)."
+hero_art_style:
+  type: enum
+  default: duotone
+  choices:
+    - duotone
+    - original
+    - none
+  description: "Homepage hero background: dragon art in the forum's navy/cyan (duotone), in its own colours darkened (original), or none."
+show_mascots:
+  type: bool
+  default: true
+  description: "Show KurAi and ShirAi behind the homepage stats panel (wide screens only)."

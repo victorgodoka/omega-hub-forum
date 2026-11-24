@@ -10,7 +10,12 @@
   "assets": {
     "duelists-unite-logo": "assets/duelists-unite-logo.png",
     "kurai-point": "assets/kurai-point.png",
-    "shirai-wave": "assets/shirai-wave.png"
+    "shirai-wave": "assets/shirai-wave.png",
+    "hero_duotone": "assets/hero-duotone.jpg",
+    "hero_dark": "assets/hero-dark.jpg",
+    "mascots": "assets/mascots.png",
+    "mascots_lit": "assets/mascots-lit.png",
+    "lost": "assets/lost.png"
   },
   "color_schemes": {
     "New Color Palette": {

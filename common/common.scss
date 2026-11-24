@@ -1433,3 +1433,11 @@ body { background-color: transparent; background-image: none; }
   .user-main .collapsed-info .details { padding: 16px; }
   .admin-interface #main-outlet { padding: 20px 16px 40px; }
 }
+
+// ---------- Duelists Unite layers (were separate theme components) ----------
+// Loaded last so they sit on top of the base theme, as they did as components.
+@import "du-readable-fonts";   // Figtree labels, Oxanium figures
+@import "du-navigation-fixes"; // ☰ site links, header order, hero download button
+@import "du-hero-art";         // dragon art behind the hero and the category blocks, mascots
+@import "du-playful";          // section accents (Okabe-Ito) and animations
+@import "du-polish";           // phone tab bar, 404 page, footer year
