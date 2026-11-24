@@ -57,6 +57,24 @@ export default class OmegaHome extends Component {
     return this.cats.reduce((n, c) => n + c.subs.length, 0);
   }
 
+  // Block layout: one line of subcategory chips (as many as fit, at most 3,
+  // then "+N") and only the newest topic as the card's footer.
+  block(c) {
+    const shown = [];
+    let used = 0;
+    for (const s of c.subs) {
+      const w = s.name.length + 6;
+      if (shown.length >= 3 || (shown.length && used + w > 44)) break;
+      shown.push(s);
+      used += w;
+    }
+    c.shown = shown;
+    c.more = c.subs.length - shown.length;
+    // Skip the old "About the … category" topics (DU Polish hides them too).
+    c.latest = c.topics.find((t) => !t.url.includes("/t/about-the-")) || null;
+    return c;
+  }
+
   async load() {
     const [c, l] = await Promise.all([
       ajax("/categories.json?include_subcategories=true"),
@@ -70,9 +88,8 @@ export default class OmegaHome extends Component {
           .catch(() => [])
       )
     );
-    this.cats = top.map((x, i) => ({
+    this.cats = top.map((x, i) => this.block({
       name: x.name,
-      adAfter: x.name.toLowerCase() === "yu-gi-oh",
       color: `#${x.color}`,
       icon: icon(x.name),
       url: `/c/${x.slug}/${x.id}`,
@@ -125,55 +142,45 @@ export default class OmegaHome extends Component {
             <span class="oh-sec__rule"></span>
             <span class="oh-signal">{{this.cats.length}} categories · {{this.subCount}} subcategories</span>
           </div>
-          {{#each this.cats as |c|}}
-            <article class="oh-card">
-              <div class="oh-card__in">
-                <div class="oh-card__info">
+          <div class="oh-blocks">
+            {{#each this.cats as |c|}}
+              <article class="oh-card oh-card--block">
+                <div class="oh-card__in">
                   <div class="oh-card__head">
                     <span class="oh-ico" aria-hidden="true" style="box-shadow: inset 0 -3px 0 {{c.color}}">{{#if c.icon}}<img src={{c.icon}} alt="" width="24" height="24" />{{/if}}</span>
                     <h3><a href={{c.url}}>{{c.name}}</a></h3>
                     <span class="oh-signal oh-card__total">{{c.total}} total</span>
                   </div>
-                  {{#if c.desc}}<div class="oh-card__desc">{{c.desc}}</div>{{/if}}
+                  <div class="oh-card__desc">{{#if c.desc}}{{c.desc}}{{/if}}</div>
                   <ul class="oh-chips" aria-label="Subcategories">
-                    {{#each c.subs as |s|}}
-                      <li><a class="oh-chip" href={{s.url}}><span class="oh-sq oh-sq--sm" style="background: {{s.color}}"></span>{{s.name}}<span class="oh-signal">{{s.count}}</span></a></li>
+                    {{#each c.shown as |s|}}
+                      <li><a class="oh-chip" href={{s.url}}><span class="oh-sq oh-sq--sm" style="background: {{s.color}}"></span>{{s.name}}</a></li>
                     {{/each}}
+                    {{#if c.more}}<li><a class="oh-chip oh-chip--more" href={{c.url}}>+{{c.more}}</a></li>{{/if}}
                   </ul>
-                </div>
-                <div class="oh-card__recent">
-                  <span class="oh-signal">Recent topics</span>
-                  <ol class="oh-rows">
-                    {{#each c.topics as |t|}}
-                      <li class="oh-row">
-                        <div class="oh-row__main">
-                          <a class="oh-ttl oh-row__t" href={{t.url}}>{{t.title}}</a>
-                          <span class="oh-signal">{{t.age}}</span>
-                        </div>
-                        <span class="oh-row__rep" aria-label={{t.label}}>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 4h18v13H8l-5 4z"></path></svg>
-                          <span>{{t.replies}}</span>
-                        </span>
-                      </li>
-                    {{/each}}
-                  </ol>
-                </div>
-              </div>
-            </article>
-            {{#if c.adAfter}}
-              <aside class="oh-spon" aria-label="Sponsored">
-                <div class="oh-spon__in">
-                  <div class="oh-spon__logo" aria-hidden="true"></div>
-                  <div class="oh-spon__txt">
-                    <span class="oh-signal">Sponsored · Duelists Unite</span>
-                    <span class="oh-spon__t">Omega Hub</span>
-                    <span class="oh-spon__d">Tournaments, stats, leaderboards and community for YGO Omega.</span>
+                  <div class="oh-card__foot">
+                    {{#if c.latest}}
+                      <a class="oh-ttl oh-card__latest" href={{c.latest.url}}>{{c.latest.title}}</a>
+                      <span class="oh-signal">{{c.latest.age}}</span>
+                    {{else}}
+                      <span class="oh-card__empty">No topics yet. <a href={{c.url}}>Start the first one</a></span>
+                    {{/if}}
                   </div>
-                  <a class="btn btn-default" href="https://omega.duelistsunite.org">Open Omega Hub<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 11h11.2l-4.6-4.6L12 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"></path></svg></a>
                 </div>
-              </aside>
-            {{/if}}
-          {{/each}}
+              </article>
+            {{/each}}
+          </div>
+          <aside class="oh-spon" aria-label="Sponsored">
+            <div class="oh-spon__in">
+              <div class="oh-spon__logo" aria-hidden="true"></div>
+              <div class="oh-spon__txt">
+                <span class="oh-signal">Sponsored · Duelists Unite</span>
+                <span class="oh-spon__t">Omega Hub</span>
+                <span class="oh-spon__d">Tournaments, stats, leaderboards and community for YGO Omega.</span>
+              </div>
+              <a class="btn btn-default" href="https://omega.duelistsunite.org">Open Omega Hub<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 11h11.2l-4.6-4.6L12 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"></path></svg></a>
+            </div>
+          </aside>
         </section>
 
         <aside class="oh-home__latest" aria-label="Latest and links">
