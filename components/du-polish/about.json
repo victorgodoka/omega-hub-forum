@@ -1,0 +1,10 @@
+{
+  "name": "DU Polish",
+  "about_url": null,
+  "license_url": null,
+  "component": true,
+  "assets": {
+    "lost": "assets/lost.png"
+  },
+  "color_schemes": {}
+}

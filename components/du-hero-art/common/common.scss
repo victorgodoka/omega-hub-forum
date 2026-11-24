@@ -1,0 +1,242 @@
+// Duelists Unite: homepage hero art
+// - Dragon art behind the hero, darkened and faded where the text sits.
+// - Kurai + ShirAI facing off on the right (wide screens), added by the JS.
+// - "Reveal": on mouse hover (desktop) or while scrolled into the middle of
+//   the screen (touch), the art brightens and the silhouettes light up.
+//   Category cards get a faint slice of the same art that reveals the same way.
+// Text always keeps a dark backing, so it stays readable in both states.
+
+$du-hero-style: "#{$hero_art_style}";
+$du-hero-img: url($hero_duotone);
+@if $du-hero-style == "original" {
+  $du-hero-img: url($hero_dark);
+}
+$du-bottom-fade: linear-gradient(180deg, rgba(8, 10, 20, 0) 60%, #080a14 100%);
+
+// Animatable veil strengths (0 = art fully visible, 1 = hidden).
+@property --du-veil-mid {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0.45;
+}
+
+@property --du-veil-end {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0.2;
+}
+
+@property --du-card-veil {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0.94;
+}
+
+@mixin du-hero-revealed {
+  --du-veil-mid: 0.3;
+  --du-veil-end: 0.04;
+
+  .du-mascots__dark {
+    opacity: 0;
+  }
+
+  .du-mascots__lit {
+    opacity: 0.95;
+  }
+}
+
+@mixin du-card-revealed {
+  .oh-card__in {
+    --du-card-veil: 0.78;
+  }
+}
+
+body {
+  // Shared with DU Playful Sections (category banners). Invisible by itself.
+  --du-art: #{$du-hero-img};
+
+  @if $du-hero-style != "none" {
+    // ---------------------------------------------------------------- hero
+    .oh-hero {
+      isolation: isolate;
+      overflow: hidden;
+      background-color: #080a14;
+      // Layers, top first: bottom fade, text-side darkening, the art.
+      background-image:
+        $du-bottom-fade,
+        linear-gradient(
+          90deg,
+          rgba(8, 10, 20, 0.93) 0%,
+          rgba(8, 10, 20, 0.86) 40%,
+          rgba(8, 10, 20, var(--du-veil-mid)) 68%,
+          rgba(8, 10, 20, var(--du-veil-end)) 100%
+        ),
+        $du-hero-img;
+      background-size: 100% 100%, 100% 100%, cover;
+      background-position: center, center, 60% 35%;
+      background-repeat: no-repeat;
+      transition: --du-veil-mid 0.6s ease, --du-veil-end 0.6s ease;
+    }
+
+    // Phones and small tablets: text spans the full width, so darken evenly.
+    @media (max-width: 767px) {
+      .oh-hero {
+        background-image:
+          $du-bottom-fade,
+          linear-gradient(
+            rgba(8, 10, 20, calc(0.7 + var(--du-veil-mid) * 0.4)),
+            rgba(8, 10, 20, calc(0.7 + var(--du-veil-mid) * 0.4))
+          ),
+          $du-hero-img;
+      }
+    }
+
+    // ------------------------------------------------------ category cards
+    .oh-card__in {
+      background-color: #0e1222;
+      background-image:
+        linear-gradient(
+          90deg,
+          rgba(14, 18, 34, 0.97) 0%,
+          rgba(14, 18, 34, 0.97) 45%,
+          rgba(14, 18, 34, var(--du-card-veil)) 100%
+        ),
+        // optional section tint (DU Playful Sections sets --du-accent-tint)
+        linear-gradient(var(--du-accent-tint, transparent), var(--du-accent-tint, transparent)),
+        $du-hero-img;
+      background-size: 100% 100%, 100% 100%, 260% auto;
+      background-position: center, center, var(--du-card-pos, 70% 30%);
+      background-repeat: no-repeat;
+      background-blend-mode: normal, color, normal;
+      transition: --du-card-veil 0.5s ease;
+    }
+
+
+    // A different slice of the art for each card.
+    .oh-card:nth-of-type(6n + 1) { --du-card-pos: 22% 30%; }
+    .oh-card:nth-of-type(6n + 2) { --du-card-pos: 80% 18%; }
+    .oh-card:nth-of-type(6n + 3) { --du-card-pos: 52% 62%; }
+    .oh-card:nth-of-type(6n + 4) { --du-card-pos: 8% 82%; }
+    .oh-card:nth-of-type(6n + 5) { --du-card-pos: 92% 72%; }
+    .oh-card:nth-of-type(6n + 6) { --du-card-pos: 40% 8%; }
+
+    .oh-card.du-in-view {
+      @include du-card-revealed;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .oh-card:hover {
+        @include du-card-revealed;
+      }
+    }
+  }
+
+  // Text and stats above the art and figures.
+  .oh-hero__main,
+  .oh-hero__stats {
+    position: relative;
+    z-index: 1;
+  }
+
+  // ------------------------------------------------------------- mascots
+  // Kurai and ShirAI face off, duel disks raised, across the right half of
+  // the hero. On wide screens the stats become a compact row under the
+  // buttons so nothing covers them. Smaller screens keep the original layout
+  // and hide the figures, so they never sit behind text.
+  .du-mascots {
+    display: none;
+  }
+
+  @media (min-width: 1200px) {
+    .oh-hero:has(.du-mascots) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 22px;
+
+      .oh-hero__main {
+        flex: none;
+        max-width: 48%;
+      }
+
+      h1 {
+        font-size: clamp(32px, 3.3vw, 46px);
+        margin: 12px 0;
+      }
+
+      .oh-hero__stats {
+        flex: none;
+        width: auto;
+      }
+
+      .oh-hero__stats > .oh-signal {
+        display: none; // "At a glance": the row speaks for itself
+      }
+
+      .oh-stats {
+        grid-template-columns: repeat(4, auto);
+        background: rgba(31, 39, 68, 0.8);
+      }
+
+      .oh-stat {
+        padding: 10px 20px;
+        background: rgba(14, 18, 34, 0.88);
+
+        .oh-signal {
+          white-space: nowrap;
+        }
+      }
+
+      .oh-stat__n {
+        font-size: 22px;
+      }
+    }
+
+    .du-mascots {
+      display: block;
+      position: absolute;
+      z-index: 0;
+      right: 0;
+      bottom: 0;
+      width: 54%;
+      height: 100%;
+      pointer-events: none;
+
+      img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: right bottom;
+        transition: opacity 0.6s ease;
+      }
+    }
+
+    .du-mascots__dark {
+      opacity: 0.85;
+    }
+
+    .du-mascots__lit {
+      opacity: 0;
+    }
+  }
+
+  // --------------------------------------------------------------- reveal
+  .oh-hero.du-in-view {
+    @include du-hero-revealed;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .oh-hero:hover {
+      @include du-hero-revealed;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .oh-hero,
+    .oh-card__in,
+    .du-mascots img {
+      transition: none;
+    }
+  }
+}

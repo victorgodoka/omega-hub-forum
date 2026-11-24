@@ -1,0 +1,141 @@
+// Duelists Unite: navigation fixes (CSS half; see javascripts/ for the rest)
+// Everything is nested under `body` so these rules win over the main
+// theme's rules whichever stylesheet Discourse loads first.
+
+body {
+  // -------------------------------------------------------------------------
+  // Header order: logo · menu ........ search · Log In / Sign Up · ☰
+  // The theme puts the menu, search and ☰ in one list, with the auth
+  // buttons before it. `display: contents` lets us order them as one row.
+  // -------------------------------------------------------------------------
+  .d-header .panel {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  // Never let the header squeeze the logo out of view.
+  .d-header .home-logo-wrapper-outlet {
+    flex-shrink: 0;
+  }
+
+  .d-header .panel .d-header-icons {
+    display: contents;
+  }
+
+  .d-header .panel .d-header-icons > li {
+    order: 4; // ☰, user avatar, notifications, chat
+  }
+
+  .d-header .panel .d-header-icons > li.oh-nav {
+    order: 1;
+    margin-right: auto;
+  }
+
+  .d-header .panel .d-header-icons > li.search-dropdown {
+    order: 2;
+    margin-left: auto;
+  }
+
+  .d-header .panel .header-buttons {
+    order: 3;
+    margin: 0 4px;
+  }
+
+  .d-header .auth-buttons {
+    gap: 8px;
+  }
+
+  // The last dropdown (Tools) opens leftwards so it never runs off-screen.
+  .d-header .oh-nav .oh-nav__item:last-child .oh-nav__menu {
+    left: auto;
+    right: 0;
+  }
+
+  // -------------------------------------------------------------------------
+  // Narrow laptop windows (1024–1279px): the theme hides the menu here.
+  // Keep it, without icons and with tighter spacing, so it still fits.
+  // -------------------------------------------------------------------------
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .d-header .panel .d-header-icons > li.oh-nav {
+      display: list-item;
+    }
+
+    .d-header .oh-nav > ul {
+      gap: 10px;
+    }
+
+    .d-header .oh-nav__icon {
+      display: none;
+    }
+
+    .d-header .title a::after {
+      display: none; // the small "FORUM" label next to the logo
+    }
+  }
+
+  // Below 1024px the menu stays hidden and its links live in the ☰ menu
+  // ("Duelists Unite" section, added by the JS).
+
+  // -------------------------------------------------------------------------
+  // Phones: logo + icons, keep Sign Up visible, no clipped "FORUM" label.
+  // -------------------------------------------------------------------------
+  @media (max-width: 767px) {
+    .d-header .title a::after {
+      display: none;
+    }
+
+    .d-header .header-buttons .sign-up-button {
+      display: inline-flex;
+    }
+
+    .d-header .auth-buttons {
+      gap: 6px;
+    }
+
+    .d-header .panel .header-buttons {
+      margin: 0 2px;
+    }
+
+    .d-header .header-buttons .btn {
+      padding-left: 8px;
+      padding-right: 8px;
+      height: 34px;
+    }
+
+    // Log In's person icon takes room a phone doesn't have.
+    .d-header .header-buttons .login-button .d-icon {
+      display: none;
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Homepage hero: Download is the main action, Discord second.
+  // Sign Up stays in the header, so the hero copy is hidden.
+  // -------------------------------------------------------------------------
+  .oh-hero__cta a[href$="/signup"] {
+    display: none;
+  }
+
+  .oh-hero__cta .du-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  // ☰ menu: show the "Duelists Unite" section first (Discourse adds custom
+  // sections last).
+  .sidebar-sections {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-sections > [data-section-name="du-site"] {
+    order: -1;
+  }
+
+  .sidebar-section-wrapper[data-section-name="du-site"] .sidebar-section-link-prefix .d-icon {
+    color: var(--oh-cyan, currentColor);
+  }
+}

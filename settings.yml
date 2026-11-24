@@ -10,17 +10,21 @@ header_links:
   type: objects
   description: "Header menu. Leave 'Parent' empty for a top-level link; set it to another link's label to nest it in that link's dropdown (a link with children becomes a dropdown and ignores its own URL). Items show in list order."
   default:
-    - { label: "News", url: "/", description: "", parent: "", live: false }
-    - { label: "Downloads", url: "/", description: "", parent: "", live: false }
-    - { label: "Leaderboards", url: "", description: "", parent: "", live: false }
-    - { label: "TCG & OCG Rankings", url: "/", description: "TCG Leaderboard", parent: "Leaderboards", live: false }
-    - { label: "Statistics", url: "/", description: "", parent: "", live: false }
-    - { label: "Tournaments", url: "", description: "", parent: "", live: false }
-    - { label: "Live Tournament", url: "/", description: "Live Tournament", parent: "Tournaments", live: true }
-    - { label: "Past Tournaments", url: "/", description: "Past Tournaments", parent: "Tournaments", live: false }
-    - { label: "Tools", url: "", description: "", parent: "", live: false }
-    - { label: "Probability Calculator", url: "/", description: "Hypergeometric Calculator for YGO", parent: "Tools", live: false }
-    - { label: "Custom Banlist Creator", url: "/", description: "Create your own banlist", parent: "Tools", live: false }
+    - { label: "News", url: "/latest", description: "", parent: "", live: false, new_tab: false }
+    - { label: "Download", url: "https://omega.duelistsunite.org/download", description: "", parent: "", live: false, new_tab: true }
+    - { label: "Tournaments", url: "", description: "", parent: "", live: false, new_tab: false }
+    - { label: "Leaderboards", url: "https://omega.duelistsunite.org/leaderboard", description: "", parent: "", live: false, new_tab: true }
+    - { label: "Statistics", url: "", description: "", parent: "", live: false, new_tab: false }
+    - { label: "Ranked Statistics", url: "https://omega.duelistsunite.org/statistics", description: "", parent: "Statistics", live: false, new_tab: true }
+    - { label: "TCG Tier List", url: "https://omega.duelistsunite.org/wiki/yu-gi-oh-tcg-tier-list", description: "", parent: "Statistics", live: false, new_tab: true }
+    - { label: "Genesys Tier List", url: "https://omega.duelistsunite.org/wiki/yu-gi-oh-genesys-tier-list", description: "", parent: "Statistics", live: false, new_tab: true }
+    - { label: "Live Tournaments", url: "https://omega.duelistsunite.org/tournament", description: "", parent: "Tournaments", live: true, new_tab: true }
+    - { label: "Tournaments Calendar", url: "https://omega.duelistsunite.org/calendar", description: "", parent: "Tournaments", live: false, new_tab: true }
+    - { label: "Tools", url: "", description: "", parent: "", live: false, new_tab: false }
+    - { label: "Web Simulator", url: "/simulator/", description: "Play ruling puzzles on the YGO Omega duel core", parent: "Tools", live: false, new_tab: true }
+    - { label: "Combo Calculator", url: "https://duelistsunite.org/combo/", description: "Odds of opening your combo pieces", parent: "Tools", live: false, new_tab: true }
+    - { label: "Banlist Creator", url: "https://forum.duelistsunite.org/banlist-creator/", description: "Build and share your own banlist", parent: "Tools", live: false, new_tab: true }
+    - { label: "Card Creator", url: "https://forum.duelistsunite.org/card-creator/", description: "Make custom cards and your own Omega card database", parent: "Tools", live: false, new_tab: true }
   schema:
     name: Link
     identifier: label

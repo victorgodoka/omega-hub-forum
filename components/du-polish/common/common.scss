@@ -1,0 +1,149 @@
+// Duelists Unite: polish
+// 1. Phone bottom bar (Home · Latest · Download · Simulator · Menu), so the
+//    main places are always one tap away instead of hidden behind ☰.
+// 2. Category cards: hide the 2020 "About the … category" posts and the
+//    confusing "N total" label.
+// 3. "Page not found": Kurai and ShirAI searching for the page.
+// The footer year is kept current by the JS. Ad slots are left alone: an
+// ad network fills them, and hiding them while loading would shift the page.
+
+$du-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+$du-bar-h: 58px;
+
+@keyframes du-tab-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.25) translateY(-3px); }
+  100% { transform: scale(1); }
+}
+
+@keyframes du-peek {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+body {
+  // ----------------------------------------------------- category cards
+  .oh-row:has(a[href*="/t/about-the-"]) {
+    display: none;
+  }
+
+  .oh-card__total {
+    display: none;
+  }
+
+  // ------------------------------------------------------ page not found
+  // The theme's container was 32px wider than a phone screen (sideways scroll).
+  .not-found-container {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .page-not-found .illustration-not-found {
+    position: relative;
+    width: min(320px, 80vw);
+    aspect-ratio: 636 / 360;
+    margin-bottom: 30px;
+    background: url($lost) center / contain no-repeat;
+    animation: du-peek 0.6s $du-spring both;
+
+    svg {
+      display: none;
+    }
+
+    &::after {
+      content: "Kurai and ShirAI looked everywhere…";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -26px;
+      text-align: center;
+      font-size: 13px;
+      color: #8e99b4;
+    }
+  }
+
+  // ----------------------------------------------------- phone bottom bar
+  .du-tabbar {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .du-tabbar {
+      display: flex;
+      position: fixed;
+      z-index: 900; // under the header and its ☰ panel, above the page
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: calc(#{$du-bar-h} + env(safe-area-inset-bottom));
+      padding-bottom: env(safe-area-inset-bottom);
+      background: rgba(8, 10, 20, 0.94);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid #1f2744;
+    }
+
+    .du-tabbar__item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      min-width: 0;
+      padding: 0;
+      background: none;
+      border: 0;
+      color: #8e99b4;
+      font: 600 11px/1 Figtree, system-ui, sans-serif;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
+
+      .d-icon {
+        width: 20px;
+        height: 20px;
+        transition: transform 0.25s $du-spring;
+      }
+
+      &:active .d-icon {
+        transform: scale(0.82);
+      }
+
+      &.is-active {
+        color: var(--du-accent, #45cfdc);
+
+        .d-icon {
+          animation: du-tab-pop 0.45s $du-spring;
+        }
+      }
+    }
+
+    .du-tabbar__item--download {
+      color: #45cfdc;
+    }
+
+    // keep the end of every page above the bar
+    &.du-has-tabbar {
+      padding-bottom: calc(#{$du-bar-h} + env(safe-area-inset-bottom));
+    }
+
+    // the topic progress pill floats above the bar instead of under it
+    #topic-progress-wrapper:not(.docked) {
+      bottom: calc(#{$du-bar-h} + env(safe-area-inset-bottom)) !important;
+    }
+
+    // out of the way while writing a post
+    &:has(#reply-control.open) .du-tabbar,
+    &:has(#reply-control.fullscreen) .du-tabbar {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .du-tabbar .d-icon,
+    .page-not-found .illustration-not-found {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
