@@ -13,6 +13,21 @@ const icon = (n) => {
   const svg = ICONS[(n || "").toLowerCase()];
   return svg ? `data:image/svg+xml,${encodeURIComponent(svg)}` : null;
 };
+// House ad for Omega Hub, as a CharacterLine. KurAi (competition) and
+// ShirAi (community) alternate per visit; the "Sponsored" stamp always stays.
+const SPONSORS = [
+  {
+    key: "kurai",
+    name: "KurAi",
+    line: "Leaderboards, stats and every tournament, all on Omega Hub. Go see who's on top.",
+  },
+  {
+    key: "shirai",
+    name: "ShirAi",
+    line: "Your profile, match history and the ranked ladders live on Omega Hub. Take a look.",
+  },
+];
+
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const num = (n) => (n || 0).toLocaleString("en-US");
 const short = (n) => (n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n));
@@ -32,6 +47,8 @@ function age(iso) {
 export default class OmegaHome extends Component {
   @service router;
   @service site;
+
+  sponsor = SPONSORS[Math.floor(Math.random() * SPONSORS.length)];
 
   @tracked cats = [];
   @tracked latest = [];
@@ -170,15 +187,20 @@ export default class OmegaHome extends Component {
               </article>
             {{/each}}
           </div>
-          <aside class="oh-spon" aria-label="Sponsored">
-            <div class="oh-spon__in">
-              <div class="oh-spon__logo" aria-hidden="true"></div>
-              <div class="oh-spon__txt">
-                <span class="oh-signal">Sponsored · Duelists Unite</span>
-                <span class="oh-spon__t">Omega Hub</span>
-                <span class="oh-spon__d">Tournaments, stats, leaderboards and community for YGO Omega.</span>
+          <aside class="oh-spon oh-spon--{{this.sponsor.key}}" aria-label="Sponsored">
+            <div class="oh-spon__char" aria-hidden="true"></div>
+            <div class="oh-spon__box">
+              <div class="oh-spon__in">
+                <div class="oh-spon__txt">
+                  <div class="oh-spon__who">
+                    <span class="oh-spon__dia" aria-hidden="true"></span>
+                    <span class="oh-spon__name">{{this.sponsor.name}}</span>
+                    <span class="oh-signal">· Sponsored · Duelists Unite</span>
+                  </div>
+                  <p class="oh-spon__line">{{this.sponsor.line}}</p>
+                </div>
+                <a class="btn btn-primary" href="https://omega.duelistsunite.org">Open Omega Hub<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 11h11.2l-4.6-4.6L12 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"></path></svg></a>
               </div>
-              <a class="btn btn-default" href="https://omega.duelistsunite.org">Open Omega Hub<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 11h11.2l-4.6-4.6L12 5l7 7-7 7-1.4-1.4 4.6-4.6H4z"></path></svg></a>
             </div>
           </aside>
         </section>

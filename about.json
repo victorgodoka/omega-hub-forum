@@ -8,7 +8,9 @@
   "minimum_discourse_version": null,
   "maximum_discourse_version": null,
   "assets": {
-    "duelists-unite-logo": "assets/duelists-unite-logo.png"
+    "duelists-unite-logo": "assets/duelists-unite-logo.png",
+    "kurai-point": "assets/kurai-point.png",
+    "shirai-wave": "assets/shirai-wave.png"
   },
   "color_schemes": {
     "New Color Palette": {
