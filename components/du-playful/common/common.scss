@@ -1,0 +1,342 @@
+// Duelists Unite: playful sections
+// Every forum section gets its own colour and its own little animation, and
+// buttons/cards respond with a springy, game-like feel. CSS only (transform
+// and opacity), nothing waits on an animation, and everything calms down
+// for people who ask their device for reduced motion.
+
+// slug: (accent for glows/borders, signature animation)
+// Accents are the categories' own colours, lifted a little for the dark theme.
+$du-sections: (
+  "omega": (#f06a4a, du-spin),
+  "site": (#3d9be3, du-wobble),
+  "yugioh": (#c160d0, du-flip),
+  "tournaments": (#f9a23f, du-jump),
+  "dormwars": (#e8505f, du-clash),
+  "watercooler": (#3eeff2, du-bob),
+);
+
+$du-spring: cubic-bezier(0.34, 1.56, 0.64, 1); // overshoot, then settle
+
+// ----------------------------------------------------------- animations
+@keyframes du-spin {
+  0% { transform: rotate(0) scale(1); }
+  60% { transform: rotate(380deg) scale(1.15); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes du-wobble {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(-14deg) scale(1.08); }
+  40% { transform: rotate(11deg); }
+  60% { transform: rotate(-7deg); }
+  80% { transform: rotate(3deg); }
+}
+
+@keyframes du-flip {
+  0% { transform: perspective(240px) rotateY(0); }
+  100% { transform: perspective(240px) rotateY(360deg); }
+}
+
+@keyframes du-jump {
+  0%, 100% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-10px) scale(0.94, 1.08); }
+  55% { transform: translateY(0) scale(1.1, 0.9); }
+  75% { transform: translateY(-3px) scale(1); }
+}
+
+@keyframes du-clash {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  15% { transform: translateX(-5px) rotate(-7deg); }
+  30% { transform: translateX(5px) rotate(7deg); }
+  45% { transform: translateX(-4px) rotate(-4deg); }
+  60% { transform: translateX(3px) rotate(3deg); }
+  75% { transform: translateX(-1px) rotate(-1deg); }
+}
+
+@keyframes du-bob {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(-7px); }
+  50% { transform: translateY(0); }
+  75% { transform: translateY(-3px); }
+}
+
+@keyframes du-pop-in {
+  from { opacity: 0; transform: translateX(-10px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes du-page-in {
+  from { opacity: 0.35; }
+  to { opacity: 1; }
+}
+
+@keyframes du-bar-in {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+body {
+  --du-accent: #45cfdc; // default: the theme's cyan
+  --du-anim: du-bob;
+
+  // ------------------------------------------------- section accents
+  @each $slug, $v in $du-sections {
+    // category pages, their subcategories and their topics
+    &[class*="category-#{$slug}"] {
+      --du-accent: #{nth($v, 1)};
+      --du-anim: #{nth($v, 2)};
+    }
+
+    // homepage cards (each links to its category)
+    .oh-card:has(a[href^="/c/#{$slug}/"]) {
+      --du-accent: #{nth($v, 1)};
+      --du-anim: #{nth($v, 2)};
+    }
+  }
+
+  // tint for the art slices drawn by DU Hero Art
+  .oh-card,
+  .oh-cat {
+    --du-accent-tint: var(--du-accent);
+  }
+
+  // --------------------------------------------- homepage section cards
+  .oh-card {
+    transition: transform 0.35s $du-spring, background-color 0.2s ease;
+  }
+
+  .oh-card .oh-ico {
+    box-shadow: inset 0 -3px 0 var(--du-accent) !important;
+    transition: box-shadow 0.2s ease;
+  }
+
+  @mixin du-card-active {
+    transform: translateY(-4px);
+    background: var(--du-accent); // the card's 1px frame lights up
+
+    .oh-ico {
+      box-shadow: inset 0 -3px 0 var(--du-accent), 0 0 18px -2px var(--du-accent) !important;
+    }
+
+    .oh-ico img {
+      animation: var(--du-anim) 0.7s $du-spring both;
+    }
+
+    h3,
+    h3 a {
+      color: var(--du-accent);
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .oh-card:hover {
+      @include du-card-active;
+    }
+  }
+
+  // touch screens: the card in the middle of the screen (set by DU Hero Art)
+  .oh-card.du-in-view {
+    @include du-card-active;
+  }
+
+  .oh-card h3,
+  .oh-card h3 a {
+    transition: color 0.2s ease;
+  }
+
+  // chips (subcategory links on the cards)
+  .oh-chip {
+    transition: transform 0.25s $du-spring, border-color 0.2s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .oh-chip:hover {
+      transform: translateY(-2px) scale(1.04);
+      border-color: var(--du-accent);
+    }
+  }
+
+  // ------------------------------------------------- category banner
+  .oh-cat .oh-panel {
+    background: var(--du-accent); // accent frame
+  }
+
+  // the forum art (shared by DU Hero Art as --du-art), tinted in the
+  // section colour and kept dark behind the title and description
+  .oh-cat__in {
+    position: relative;
+    overflow: hidden;
+    background-color: #0e1222;
+    background-image:
+      linear-gradient(
+        90deg,
+        rgba(14, 18, 34, 0.96) 0%,
+        rgba(14, 18, 34, 0.9) 45%,
+        rgba(14, 18, 34, 0.8) 100%
+      ),
+      linear-gradient(var(--du-accent), var(--du-accent)),
+      var(--du-art, none);
+    background-size: 100% 100%, 100% 100%, cover;
+    background-position: center, center, 60% 40%;
+    background-repeat: no-repeat;
+    background-blend-mode: normal, color, normal;
+  }
+
+  .oh-cat__main h1 {
+    position: relative;
+    padding-bottom: 10px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 72px;
+      height: 4px;
+      background: var(--du-accent);
+      transform-origin: left;
+      animation: du-bar-in 0.5s $du-spring 0.1s both;
+    }
+  }
+
+  // the category's own logo, shown as an emblem (added by the JS)
+  .du-emblem {
+    display: inline-flex;
+    width: 64px;
+    height: 64px;
+    margin: 4px 0 10px;
+    padding: 8px;
+    background: #0e1222;
+    border: 2px solid var(--du-accent);
+    box-shadow: 0 0 22px -4px var(--du-accent);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      animation: var(--du-anim) 0.8s $du-spring 0.15s both;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .oh-cat__in:hover .du-emblem img {
+      animation: var(--du-anim) 0.7s $du-spring both;
+    }
+  }
+
+  // subcategory tiles
+  .oh-sub {
+    transition: transform 0.3s $du-spring, box-shadow 0.2s ease;
+
+    .oh-sq {
+      transition: transform 0.35s $du-spring;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .oh-sub:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 0 1px var(--du-accent), 0 8px 20px -10px var(--du-accent);
+
+      .oh-sq {
+        transform: rotate(90deg) scale(1.3);
+      }
+    }
+  }
+
+  // ------------------------------------------------------ topic lists
+  .topic-list-item,
+  .oh-row,
+  .oh-lat__row {
+    transition: box-shadow 0.15s ease, background-color 0.15s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .topic-list-item:hover,
+    .oh-row:hover,
+    .oh-lat__row:hover {
+      box-shadow: inset 3px 0 0 var(--du-accent);
+    }
+  }
+
+  // ----------------------------------------------------- topic pages
+  #topic-title h1,
+  #topic-title .fancy-title {
+    position: relative;
+  }
+
+  #topic-title .title-wrapper::after {
+    content: "";
+    display: block;
+    width: 72px;
+    height: 4px;
+    margin-top: 10px;
+    background: var(--du-accent);
+    transform-origin: left;
+    animation: du-bar-in 0.5s $du-spring 0.1s both;
+  }
+
+  // ----------------------------------------------------------- buttons
+  .btn {
+    transition: transform 0.18s $du-spring, filter 0.15s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+  }
+
+  .btn:active {
+    transform: scale(0.95);
+  }
+
+  // ------------------------------------------------------------ ☰ menu
+  .sidebar-hamburger-dropdown .sidebar-section-link-wrapper {
+    animation: du-pop-in 0.26s $du-spring both;
+  }
+
+  @for $i from 1 through 12 {
+    .sidebar-hamburger-dropdown .sidebar-section-link-wrapper:nth-child(#{$i}) {
+      animation-delay: #{($i - 1) * 18}ms;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .sidebar-section-link:hover .sidebar-section-link-prefix .d-icon {
+      animation: du-wobble 0.5s ease both;
+    }
+  }
+
+  // ------------------------------------------------ page change fade
+  #main-outlet.du-enter {
+    animation: du-page-in 0.2s ease-out both;
+  }
+
+  // ------------------------------------------------- reduced motion
+  @media (prefers-reduced-motion: reduce) {
+    .oh-card,
+    .oh-card *,
+    .oh-chip,
+    .oh-sub,
+    .oh-sub *,
+    .du-emblem img,
+    .oh-cat__main h1::after,
+    #topic-title .title-wrapper::after,
+    .btn,
+    .sidebar-section-link-wrapper,
+    .sidebar-section-link .d-icon,
+    #main-outlet.du-enter {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .oh-card:hover,
+    .oh-card.du-in-view,
+    .oh-sub:hover,
+    .btn:active {
+      transform: none !important;
+    }
+  }
+}

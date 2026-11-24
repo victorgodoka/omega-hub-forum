@@ -1,0 +1,13 @@
+{
+  "name": "DU Hero Art",
+  "about_url": null,
+  "license_url": null,
+  "component": true,
+  "assets": {
+    "hero_duotone": "assets/hero-duotone.jpg",
+    "hero_dark": "assets/hero-dark.jpg",
+    "mascots": "assets/mascots.png",
+    "mascots_lit": "assets/mascots-lit.png"
+  },
+  "color_schemes": {}
+}

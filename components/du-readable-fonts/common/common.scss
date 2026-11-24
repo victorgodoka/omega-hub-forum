@@ -1,0 +1,92 @@
+// Duelists Unite: readable fonts
+// Theme component for the forum's custom theme (the one that defines --oh-font-*).
+// Swaps the wide Archivo title and the Space Mono labels for Figtree,
+// the font already used for body text. Code blocks stay monospace.
+// The Michroma logo wordmark is left as it is.
+// Rules are nested under `body` so they win over the main theme's rules
+// whichever stylesheet Discourse loads first.
+
+html:root {
+  --oh-font-display: Figtree, system-ui, -apple-system, sans-serif;
+  --oh-font-mono: Figtree, system-ui, -apple-system, sans-serif;
+  --du-font-code: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+}
+
+body {
+  // Hero title: bold, normal width, a little tighter.
+  .oh-hero h1 {
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  // Big numbers (stat cards, topic map, timeline): line up digits.
+  .oh-stat__n,
+  .oh-map__n,
+  .topic-map .number,
+  .topic-timeline .timeline-replies {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Small labels were tuned for a wide monospace font: Figtree needs
+  // less letter spacing and a slightly larger size to read well.
+  .oh-signal,
+  .oh-sec__n,
+  .oh-eyebrow,
+  .oh-footer__pw,
+  .discourse-tag,
+  .topic-map h4,
+  .topic-map .label,
+  .topic-body .post-info .post-date,
+  .topic-body .post-info a.post-number,
+  .topic-post .post-info.post-date a,
+  .topic-body .user-title,
+  .topic-body .user-badge-button-moderator,
+  .topic-timeline .start-date,
+  .topic-timeline .now-date {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  .d-header .oh-nav__link,
+  .d-header .header-buttons .btn,
+  .d-header .title a::after,
+  .list-controls .nav-pills > li > a,
+  .topic-list th,
+  .oh-sec h2,
+  .oh-footer nav a,
+  .oh-spon .btn,
+  #suggested-topics .suggested-topics-title {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+  }
+
+  // Category names: normal case is easier to scan than spaced capitals.
+  .badge-category__name {
+    font-size: 13px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .category-list .num,
+  .category-list .activity,
+  .topic-list .num,
+  .topic-list .activity,
+  .oh-row__rep span,
+  .oh-ad__dims {
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .topic-post .post-notice {
+    letter-spacing: 0;
+    font-size: 13px;
+  }
+
+  // Keep code in a real monospace font.
+  pre,
+  code {
+    font-family: var(--du-font-code);
+  }
+}
