@@ -14,18 +14,18 @@
   },
   "color_schemes": {
     "New Color Palette": {
-      "primary": "eef1f8",
-      "secondary": "080a14",
-      "tertiary": "45cfdc",
+      "primary": "f1f3f9",
+      "secondary": "090b12",
+      "tertiary": "5bbfcd",
       "quaternary": "efd17e",
-      "header_background": "0e1222",
-      "header_primary": "eef1f8",
-      "highlight": "0b2c3a",
-      "selected": "1d2440",
-      "hover": "151a2e",
-      "danger": "#d61f38",
-      "success": "#4fdc8c",
-      "love": "#ff8594"
+      "header_background": "10131d",
+      "header_primary": "f1f3f9",
+      "highlight": "0f2b30",
+      "selected": "222636",
+      "hover": "181c28",
+      "danger": "d02940",
+      "success": "98f59c",
+      "love": "ff7c77"
     }
   },
   "modifiers": {},

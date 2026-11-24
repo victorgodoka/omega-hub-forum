@@ -1,13 +1,14 @@
 // Duelists Unite: readable fonts
 // Theme component for the forum's custom theme (the one that defines --oh-font-*).
-// Swaps the wide Archivo title and the Space Mono labels for Figtree,
-// the font already used for body text. Code blocks stay monospace.
+// Swaps the Space Mono labels for Figtree, the font already used for body
+// text. Figures (counts, ranks) use Oxanium, as in the design system; the
+// hero line is Figtree in the theme itself. Code blocks stay monospace.
 // The Michroma logo wordmark is left as it is.
 // Rules are nested under `body` so they win over the main theme's rules
 // whichever stylesheet Discourse loads first.
 
 html:root {
-  --oh-font-display: Figtree, system-ui, -apple-system, sans-serif;
+  --oh-font-display: Oxanium, Figtree, system-ui, -apple-system, sans-serif;
   --oh-font-mono: Figtree, system-ui, -apple-system, sans-serif;
   --du-font-code: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
 }

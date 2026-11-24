@@ -11,7 +11,7 @@ $du-hero-img: url($hero_duotone);
 @if $du-hero-style == "original" {
   $du-hero-img: url($hero_dark);
 }
-$du-bottom-fade: linear-gradient(180deg, rgba(8, 10, 20, 0) 60%, #080a14 100%);
+$du-bottom-fade: linear-gradient(180deg, rgba(9, 11, 18, 0) 60%, #090b12 100%);
 
 // Animatable veil strengths (0 = art fully visible, 1 = hidden).
 @property --du-veil-mid {
@@ -60,16 +60,16 @@ body {
     .oh-hero {
       isolation: isolate;
       overflow: hidden;
-      background-color: #080a14;
+      background-color: #090b12;
       // Layers, top first: bottom fade, text-side darkening, the art.
       background-image:
         $du-bottom-fade,
         linear-gradient(
           90deg,
-          rgba(8, 10, 20, 0.93) 0%,
-          rgba(8, 10, 20, 0.86) 40%,
-          rgba(8, 10, 20, var(--du-veil-mid)) 68%,
-          rgba(8, 10, 20, var(--du-veil-end)) 100%
+          rgba(9, 11, 18, 0.93) 0%,
+          rgba(9, 11, 18, 0.86) 40%,
+          rgba(9, 11, 18, var(--du-veil-mid)) 68%,
+          rgba(9, 11, 18, var(--du-veil-end)) 100%
         ),
         $du-hero-img;
       background-size: 100% 100%, 100% 100%, cover;
@@ -84,8 +84,8 @@ body {
         background-image:
           $du-bottom-fade,
           linear-gradient(
-            rgba(8, 10, 20, calc(0.7 + var(--du-veil-mid) * 0.4)),
-            rgba(8, 10, 20, calc(0.7 + var(--du-veil-mid) * 0.4))
+            rgba(9, 11, 18, calc(0.7 + var(--du-veil-mid) * 0.4)),
+            rgba(9, 11, 18, calc(0.7 + var(--du-veil-mid) * 0.4))
           ),
           $du-hero-img;
       }
@@ -93,13 +93,13 @@ body {
 
     // ------------------------------------------------------ category cards
     .oh-card__in {
-      background-color: #0e1222;
+      background-color: #10131d;
       background-image:
         linear-gradient(
           90deg,
-          rgba(14, 18, 34, 0.97) 0%,
-          rgba(14, 18, 34, 0.97) 45%,
-          rgba(14, 18, 34, var(--du-card-veil)) 100%
+          rgba(16, 19, 29, 0.97) 0%,
+          rgba(16, 19, 29, 0.97) 45%,
+          rgba(16, 19, 29, var(--du-card-veil)) 100%
         ),
         // optional section tint (DU Playful Sections sets --du-accent-tint)
         linear-gradient(var(--du-accent-tint, transparent), var(--du-accent-tint, transparent)),
@@ -174,12 +174,12 @@ body {
 
       .oh-stats {
         grid-template-columns: repeat(4, auto);
-        background: rgba(31, 39, 68, 0.8);
+        background: rgba(38, 43, 59, 0.8);
       }
 
       .oh-stat {
         padding: 10px 20px;
-        background: rgba(14, 18, 34, 0.88);
+        background: rgba(16, 19, 29, 0.88);
 
         .oh-signal {
           white-space: nowrap;
