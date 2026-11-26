@@ -25,6 +25,7 @@ header_links:
     - { label: "Combo Calculator", url: "https://duelistsunite.org/combo/", description: "Odds of opening your combo pieces", parent: "Tools", live: false, new_tab: true }
     - { label: "Banlist Creator", url: "https://forum.duelistsunite.org/banlist-creator/", description: "Build and share your own banlist", parent: "Tools", live: false, new_tab: true }
     - { label: "Card Creator", url: "https://forum.duelistsunite.org/card-creator/", description: "Make custom cards and your own Omega card database", parent: "Tools", live: false, new_tab: true }
+    - { label: "Pack Opener", url: "https://forum.duelistsunite.org/pack-opener/", description: "Open booster packs, collect cards and build decks", parent: "Tools", live: false, new_tab: true }
   schema:
     name: Link
     identifier: label

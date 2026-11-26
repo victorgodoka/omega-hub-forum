@@ -18,6 +18,7 @@ const SITE_LINKS = [
   ["Combo Calculator", "https://duelistsunite.org/combo/", "chart-bar"],
   ["Banlist Creator", "/banlist-creator/", "table"],
   ["Card Creator", "/card-creator/", "wrench"],
+  ["Pack Opener", "/pack-opener/", "gift"],
   ["Live Tournaments", `${OMEGA}/tournament`, "trophy"],
   ["Tournaments Calendar", `${OMEGA}/calendar`, "calendar-days"],
   ["Leaderboards", `${OMEGA}/leaderboard`, "list-ol"],
