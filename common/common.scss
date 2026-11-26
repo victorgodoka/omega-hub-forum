@@ -491,19 +491,23 @@ html { overflow-x: clip; }
 .oh-blocks {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  gap: 48px 20px;
 }
 @media (max-width: 1100px) { .oh-blocks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 680px) { .oh-blocks { grid-template-columns: 1fr; } }
 
 .oh-card--block {
+  position: relative;
+  overflow: visible;
+  clip-path: none !important;
+  isolation: isolate;
   display: flex;
   .oh-card__in {
     flex: 1;
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 12px;
-    padding: 20px 20px 0;
+    padding: 112px 20px 0;
   }
   .oh-card__head { gap: 12px; h3 { font-size: 18px; } }
   .oh-ico { width: 40px; height: 40px; }
@@ -532,24 +536,31 @@ html { overflow-x: clip; }
   .oh-card__empty { font-size: 13px; color: var(--oh-ink-muted); a { font-weight: 700; } }
 }
 
-// DU Hero Art paints .oh-card__in with a horizontal veil made for the old
-// full-width cards; on a 390px block it hides almost all the art. Blocks get
-// their own veil: the art opens at the empty top-right corner and stays dark
-// under the text. It still reads --du-card-veil, so the hover reveal of the
-// component keeps working (0.94 at rest, 0.78 on hover).
 body .oh-card--block .oh-card__in {
-  background-image:
-    radial-gradient(
-      130% 100% at 100% 0%,
-      rgba(16, 19, 29, calc(var(--du-card-veil, 0.94) - 0.42)) 0%,
-      rgba(16, 19, 29, calc(var(--du-card-veil, 0.94) - 0.12)) 50%,
-      rgba(16, 19, 29, 0.97) 85%
-    ),
-    linear-gradient(var(--du-accent-tint, transparent), var(--du-accent-tint, transparent)),
-    var(--du-art, none);
-  background-size: 100% 100%, 100% 100%, 180% auto;
-  background-repeat: no-repeat;
-  background-blend-mode: normal, color, normal;
+  background-image: linear-gradient(150deg, var(--du-accent-tint, #192638), #10131d 68%);
+}
+.oh-category-monster {
+  position: absolute;
+  top: -25px;
+  right: 12px;
+  width: 180px;
+  height: 140px;
+  object-fit: contain;
+  object-position: bottom center;
+  pointer-events: none;
+  z-index: 2;
+  transform-origin: bottom center;
+  filter: drop-shadow(0 10px 10px #0005);
+  transition: transform .3s cubic-bezier(.2,.75,.3,1), filter .3s ease;
+}
+.oh-card--block:focus-within .oh-category-monster { transform: translateY(-25px) scale(1.16); }
+@media (hover: hover) and (pointer: fine) {
+  .oh-card--block:hover { z-index: 3; }
+  .oh-card--block:hover .oh-category-monster { transform: translateY(-25px) scale(1.16); filter: drop-shadow(0 18px 16px #0007); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .oh-category-monster { transition: none; }
+  .oh-card--block:hover .oh-category-monster, .oh-card--block:focus-within .oh-category-monster { transform: none; }
 }
 
 // Latest topics move under the blocks: list on the left, the half-page ad on the right.

@@ -21,7 +21,7 @@ header_links:
     - { label: "Live Tournaments", url: "https://omega.duelistsunite.org/tournament", description: "", parent: "Tournaments", live: true, new_tab: true }
     - { label: "Tournaments Calendar", url: "https://omega.duelistsunite.org/calendar", description: "", parent: "Tournaments", live: false, new_tab: true }
     - { label: "Tools", url: "", description: "", parent: "", live: false, new_tab: false }
-    - { label: "Web Simulator", url: "/simulator/", description: "Play ruling puzzles on the YGO Omega duel core", parent: "Tools", live: false, new_tab: true }
+    - { label: "Duel Simulator", url: "/simulator/", description: "Play ruling puzzles on the YGO Omega duel core", parent: "Tools", live: false, new_tab: true }
     - { label: "Combo Calculator", url: "https://duelistsunite.org/combo/", description: "Odds of opening your combo pieces", parent: "Tools", live: false, new_tab: true }
     - { label: "Banlist Creator", url: "https://forum.duelistsunite.org/banlist-creator/", description: "Build and share your own banlist", parent: "Tools", live: false, new_tab: true }
     - { label: "Card Creator", url: "https://forum.duelistsunite.org/card-creator/", description: "Make custom cards and your own Omega card database", parent: "Tools", live: false, new_tab: true }

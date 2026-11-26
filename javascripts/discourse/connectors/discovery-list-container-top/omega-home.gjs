@@ -13,6 +13,16 @@ const icon = (n) => {
   const svg = ICONS[(n || "").toLowerCase()];
   return svg ? `data:image/svg+xml,${encodeURIComponent(svg)}` : null;
 };
+
+// One summon type and Attribute per category. Images are transparent Omega closeups.
+const CATEGORY_MONSTERS = {
+  "ygo omega": [6007213, "Uria, Lord of Searing Flames · FIRE · Level 10 Effect"],
+  "website": [11738489, "The Arrival Cyberse @Ignister · DARK · Link 6"],
+  "yu-gi-oh": [48546368, "Herald of Ultimateness · LIGHT · Level 12 Ritual"],
+  "tournaments": [84815190, "Baronne de Fleur · WIND · Level 10 Synchro"],
+  "dorm wars": [26096328, "Superdreadnought Rail Cannon Juggernaut Liebe · EARTH · Rank 11 Xyz"],
+  "watercooler": [42166000, "Egyptian God Slime · WATER · Level 10 Fusion"],
+};
 // House ad for Omega Hub, as a CharacterLine. KurAi (competition) and
 // ShirAi (community) alternate per visit; the "Sponsored" stamp always stays.
 const SPONSORS = [
@@ -107,6 +117,8 @@ export default class OmegaHome extends Component {
     );
     this.cats = top.map((x, i) => this.block({
       name: x.name,
+      monsterArt: CATEGORY_MONSTERS[x.name.toLowerCase()] ? `/shared/category-monsters/${CATEGORY_MONSTERS[x.name.toLowerCase()][0]}.png` : null,
+      monsterName: CATEGORY_MONSTERS[x.name.toLowerCase()]?.[1],
       color: `#${x.color}`,
       icon: icon(x.name),
       url: `/c/${x.slug}/${x.id}`,
@@ -162,6 +174,9 @@ export default class OmegaHome extends Component {
           <div class="oh-blocks">
             {{#each this.cats as |c|}}
               <article class="oh-card oh-card--block">
+                {{#if c.monsterArt}}
+                  <img class="oh-category-monster" src={{c.monsterArt}} alt="" title={{c.monsterName}} loading="lazy" decoding="async" width="180" height="160" />
+                {{/if}}
                 <div class="oh-card__in">
                   <div class="oh-card__head">
                     <span class="oh-ico" aria-hidden="true" style="box-shadow: inset 0 -3px 0 {{c.color}}">{{#if c.icon}}<img src={{c.icon}} alt="" width="24" height="24" />{{/if}}</span>

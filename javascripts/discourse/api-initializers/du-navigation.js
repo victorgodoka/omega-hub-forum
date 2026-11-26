@@ -2,7 +2,7 @@ import { apiInitializer } from "discourse/lib/api";
 
 // Duelists Unite: navigation fixes
 // 1. Adds a "Duelists Unite" section to the ☰ menu, so the site links
-//    (Download, Web Simulator, Tournaments, Leaderboards, Statistics, tier lists) can be
+//    (Download, Duel Simulator, Tournaments, Leaderboards, Statistics, tier lists) can be
 //    reached on phones, tablets and narrow laptop windows, where the theme
 //    hides the top menu.
 // 2. Adds a "Download YGO Omega" button to the homepage hero.
@@ -14,7 +14,7 @@ const DOWNLOAD_URL = `${OMEGA}/download`;
 const SITE_LINKS = [
   ["Download YGO Omega", DOWNLOAD_URL, "download"],
   // Tools
-  ["Web Simulator", "/simulator/", "puzzle-piece"],
+  ["Duel Simulator", "/simulator/", "puzzle-piece"],
   ["Combo Calculator", "https://duelistsunite.org/combo/", "chart-bar"],
   ["Banlist Creator", "/banlist-creator/", "table"],
   ["Card Creator", "/card-creator/", "wrench"],
