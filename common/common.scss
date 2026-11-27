@@ -547,6 +547,8 @@ body .oh-card--block, body .oh-card--block:hover { --oh-monster-rgb: 40 48 65; b
 
 body .oh-card--block .oh-card__head h3 a { color: var(--oh-ink) !important; }
 
+.oh-card--block:has(.oh-category-monster[src$="/10000000.png"]) { --oh-monster-rgb: 133 126 100; } // DIVINE / Team
+
 // Full-card artwork sits behind a permanent readability scrim and the content.
 body .oh-card--block .oh-card__in {
   position: relative;

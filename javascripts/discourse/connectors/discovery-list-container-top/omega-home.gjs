@@ -16,6 +16,7 @@ const icon = (n) => {
 
 // One summon type and Attribute per category. Images are transparent Omega closeups.
 const CATEGORY_MONSTERS = {
+  "team": [10000000, "Obelisk the Tormentor · DIVINE · Level 10 Effect"],
   "ygo omega": [6007213, "Uria, Lord of Searing Flames · FIRE · Level 10 Effect"],
   "website": [11738489, "The Arrival Cyberse @Ignister · DARK · Link 6"],
   "yu-gi-oh": [48546368, "Herald of Ultimateness · LIGHT · Level 12 Ritual"],
