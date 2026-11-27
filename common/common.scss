@@ -601,6 +601,12 @@ body .oh-card--block:active .oh-card__in {
   .oh-card--block:focus-within .oh-category-monster { transform: scale(1.02); }
 }
 
+.oh-card--block .oh-category-monster[src$="/58071334.png"] {
+  object-fit: contain;
+  object-position: 72% center;
+  transform: scale(.96);
+}
+
 // Latest topics move under the blocks: list on the left, the half-page ad on the right.
 .oh-home__latest {
   flex: 1 1 100%;
