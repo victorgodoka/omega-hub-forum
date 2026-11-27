@@ -566,9 +566,9 @@ body .oh-card--block .oh-card__in {
   object-position: center 35%;
   pointer-events: none;
   z-index: 0;
-  opacity: .16;
+  opacity: .8;
   transform: scale(1.02);
-  filter: saturate(.75) brightness(.8);
+  filter: brightness(0);
   transition: transform .65s ease, opacity .4s ease, filter .4s ease;
 }
 .oh-card--block:focus-within .oh-category-monster {
