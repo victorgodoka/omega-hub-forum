@@ -536,14 +536,18 @@ html { overflow-x: clip; }
   .oh-card__empty { font-size: 13px; color: var(--oh-ink-muted); a { font-weight: 700; } }
 }
 
-// Attribute colors follow the artwork, not category order.
+// Category artwork uses the monster card frame palette.
 body .oh-card--block, body .oh-card--block:hover { --oh-monster-rgb: 40 48 65; background: #0b1019; }
-.oh-card--block:has(.oh-category-monster[src$="/58071334.png"]) { --oh-monster-rgb: 158 35 30; } // FIRE
-.oh-card--block:has(.oh-category-monster[src$="/64211118.png"]) { --oh-monster-rgb: 94 42 150; } // DARK
-.oh-card--block:has(.oh-category-monster[src$="/90448279.png"]) { --oh-monster-rgb: 153 113 20; } // LIGHT
-.oh-card--block:has(.oh-category-monster[src$="/80776622.png"]) { --oh-monster-rgb: 27 108 66; } // WIND
-.oh-card--block:has(.oh-category-monster[src$="/70405001.png"]) { --oh-monster-rgb: 129 70 34; } // EARTH
-.oh-card--block:has(.oh-category-monster[src$="/52687916.png"]) { --oh-monster-rgb: 26 91 158; } // WATER
+.oh-card--block:has(.oh-category-monster[src$="/58071334.png"]) { --oh-monster-rgb: 150 86 190; } // Fusion
+.oh-card--block:has(.oh-category-monster[src$="/64211118.png"]) { --oh-monster-rgb: 33 83 174; } // Link
+.oh-card--block:has(.oh-category-monster[src$="/90448279.png"]) { --oh-monster-rgb: 49 51 60; } // Xyz
+.oh-card--block:has(.oh-category-monster[src$="/80776622.png"]) { --oh-monster-rgb: 203 111 49; } // Effect
+.oh-card--block:has(.oh-category-monster[src$="/70405001.png"]) { --oh-monster-rgb: 100 158 216; } // Ritual
+.oh-card--block:has(.oh-category-monster[src$="/52687916.png"]) { --oh-monster-rgb: 218 221 228; } // Synchro
+
+body .oh-card--block:has(.oh-category-monster[src$=".png"]) {
+  background: color-mix(in srgb, rgb(var(--oh-monster-rgb)) 32%, #080b12) !important;
+}
 
 body .oh-card--block .oh-card__head h3 a { color: var(--oh-ink) !important; }
 
