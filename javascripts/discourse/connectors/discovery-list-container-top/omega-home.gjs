@@ -16,7 +16,7 @@ const icon = (n) => {
 
 // One summon type and Attribute per category. Images are transparent Omega closeups.
 const CATEGORY_MONSTERS = {
-  "team": [30439101, "Melffy of the Forest · EARTH · Rank 2 Xyz"],
+  "team": [62256492, "Awakening of the Possessed · Team", "jpg"],
   "ygo omega": [6007213, "Uria, Lord of Searing Flames · FIRE · Level 10 Effect"],
   "website": [11738489, "The Arrival Cyberse @Ignister · DARK · Link 6"],
   "yu-gi-oh": [48546368, "Herald of Ultimateness · LIGHT · Level 12 Ritual"],
@@ -118,7 +118,7 @@ export default class OmegaHome extends Component {
     );
     this.cats = top.map((x, i) => this.block({
       name: x.name,
-      monsterArt: CATEGORY_MONSTERS[x.name.toLowerCase()] ? `/shared/category-monsters/${CATEGORY_MONSTERS[x.name.toLowerCase()][0]}.png` : null,
+      monsterArt: CATEGORY_MONSTERS[x.name.toLowerCase()] ? `/shared/category-monsters/${CATEGORY_MONSTERS[x.name.toLowerCase()][0]}.${CATEGORY_MONSTERS[x.name.toLowerCase()][2] || "png"}` : null,
       monsterName: CATEGORY_MONSTERS[x.name.toLowerCase()]?.[1],
       color: `#${x.color}`,
       icon: icon(x.name),

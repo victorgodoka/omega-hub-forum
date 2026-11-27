@@ -547,9 +547,9 @@ body .oh-card--block, body .oh-card--block:hover { --oh-monster-rgb: 40 48 65; b
 
 body .oh-card--block .oh-card__head h3 a { color: var(--oh-ink) !important; }
 
-.oh-card--block:has(.oh-category-monster[src$="/30439101.png"]) { --oh-monster-rgb: 129 70 34; } // EARTH / Team
+.oh-card--block:has(.oh-category-monster[src$="/62256492.jpg"]) { --oh-monster-rgb: 45 91 86; } // Team
 
-.oh-category-monster[src$="/30439101.png"] { object-position: center bottom; }
+.oh-category-monster[src$="/62256492.jpg"] { object-position: center 35%; filter: grayscale(1) brightness(.16); }
 
 // Full-card artwork sits behind a permanent readability scrim and the content.
 body .oh-card--block .oh-card__in {
