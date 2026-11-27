@@ -537,7 +537,7 @@ html { overflow-x: clip; }
 }
 
 // Attribute colors follow the artwork, not category order.
-.oh-card--block { --oh-monster-rgb: 40 48 65; }
+body .oh-card--block, body .oh-card--block:hover { --oh-monster-rgb: 40 48 65; background: #0b1019; }
 .oh-card--block:has(.oh-category-monster[src$="/6007213.png"]) { --oh-monster-rgb: 158 35 30; } // FIRE
 .oh-card--block:has(.oh-category-monster[src$="/11738489.png"]) { --oh-monster-rgb: 94 42 150; } // DARK
 .oh-card--block:has(.oh-category-monster[src$="/48546368.png"]) { --oh-monster-rgb: 153 113 20; } // LIGHT
@@ -545,12 +545,16 @@ html { overflow-x: clip; }
 .oh-card--block:has(.oh-category-monster[src$="/26096328.png"]) { --oh-monster-rgb: 129 70 34; } // EARTH
 .oh-card--block:has(.oh-category-monster[src$="/42166000.png"]) { --oh-monster-rgb: 26 91 158; } // WATER
 
+body .oh-card--block .oh-card__head h3 a { color: var(--oh-ink) !important; }
+
 // Full-card artwork sits behind a permanent readability scrim and the content.
 body .oh-card--block .oh-card__in {
   position: relative;
   z-index: 1;
-  background: linear-gradient(115deg, rgb(var(--oh-monster-rgb) / .90), rgb(var(--oh-monster-rgb) / .53) 55%, rgb(var(--oh-monster-rgb) / .18)),
-              linear-gradient(0deg, rgba(10,14,24,.95), transparent 75%) !important;
+  background: radial-gradient(ellipse at 62% 40%, transparent 12%, rgba(3,5,9,.83) 100%),
+              linear-gradient(90deg, rgba(5,8,14,.62), rgba(5,8,14,.12) 75%),
+              linear-gradient(0deg, rgba(5,8,14,.94), transparent 70%),
+              radial-gradient(ellipse at 60% 35%, rgb(var(--oh-monster-rgb) / .28), rgb(var(--oh-monster-rgb) / .08) 75%) !important;
 }
 .oh-category-monster {
   position: absolute;
@@ -562,9 +566,9 @@ body .oh-card--block .oh-card__in {
   object-position: center 35%;
   pointer-events: none;
   z-index: 0;
-  opacity: .72;
+  opacity: .16;
   transform: scale(1.02);
-  filter: saturate(.85) brightness(.95);
+  filter: saturate(.75) brightness(.8);
   transition: transform .65s ease, opacity .4s ease, filter .4s ease;
 }
 .oh-card--block:focus-within .oh-category-monster {
