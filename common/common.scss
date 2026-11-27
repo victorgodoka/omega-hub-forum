@@ -541,6 +541,7 @@ body .oh-card--block, body .oh-card--block:hover { --oh-monster-rgb: 40 48 65; b
 .oh-card--block:has(.oh-category-monster[src$="/58071334.png"]) { --oh-monster-rgb: 150 86 190; } // Fusion
 .oh-card--block:has(.oh-category-monster[src$="/64211118.png"]) { --oh-monster-rgb: 33 83 174; } // Link
 .oh-card--block:has(.oh-category-monster[src$="/90448279.png"]) { --oh-monster-rgb: 49 51 60; } // Xyz
+.oh-card--block:has(.oh-category-monster[src$="/62098216.png"]),
 .oh-card--block:has(.oh-category-monster[src$="/80776622.png"]) { --oh-monster-rgb: 203 111 49; } // Effect
 .oh-card--block:has(.oh-category-monster[src$="/70405001.png"]) { --oh-monster-rgb: 100 158 216; } // Ritual
 .oh-card--block:has(.oh-category-monster[src$="/52687916.png"]) { --oh-monster-rgb: 218 221 228; } // Synchro
@@ -550,16 +551,6 @@ body .oh-card--block:has(.oh-category-monster[src$=".png"]) {
 }
 
 body .oh-card--block .oh-card__head h3 a { color: var(--oh-ink) !important; }
-
-.oh-card--block:has(.oh-category-monster[src$="/62256492.jpg"]) { --oh-monster-rgb: 45 91 86; } // Team
-
-.oh-category-monster[src$="/62256492.jpg"] {
-  mask: url("/shared/category-monsters/62256492-silhouette.svg") 72% center / contain no-repeat;
-}
-.oh-card--block:is(.is-art-visible, :focus-within) .oh-category-monster[src$="/62256492.jpg"] { mask: none; }
-@media (hover: hover) and (pointer: fine) {
-  .oh-card--block:hover .oh-category-monster[src$="/62256492.jpg"] { mask: none; }
-}
 
 // Full-card artwork sits behind a permanent readability scrim and the content.
 body .oh-card--block .oh-card__in {
@@ -611,7 +602,7 @@ body .oh-card--block:active .oh-card__in {
   .oh-card--block:focus-within .oh-category-monster { transform: scale(1.02); }
 }
 
-.oh-card--block .oh-category-monster[src$="/62256492.jpg"],
+.oh-card--block .oh-category-monster[src$="/62098216.png"],
 .oh-card--block .oh-category-monster[src$="/58071334.png"] {
   object-fit: contain;
   object-position: 72% center;
