@@ -17,12 +17,12 @@ const icon = (n) => {
 // One summon type and Attribute per category. Images are transparent Omega closeups.
 const CATEGORY_MONSTERS = {
   "team": [62256492, "Awakening of the Possessed · Team", "jpg"],
-  "ygo omega": [6007213, "Uria, Lord of Searing Flames · FIRE · Level 10 Effect"],
-  "website": [11738489, "The Arrival Cyberse @Ignister · DARK · Link 6"],
-  "yu-gi-oh": [48546368, "Herald of Ultimateness · LIGHT · Level 12 Ritual"],
-  "tournaments": [84815190, "Baronne de Fleur · WIND · Level 10 Synchro"],
-  "dorm wars": [26096328, "Superdreadnought Rail Cannon Juggernaut Liebe · EARTH · Rank 11 Xyz"],
-  "watercooler": [42166000, "Egyptian God Slime · WATER · Level 10 Fusion"],
+  "ygo omega": [58071334, "Snake-Eyes Doomed Dragon · Fusion / FIRE"],
+  "website": [80776622, "DoSolfachord Coolia · Effect / WIND"],
+  "yu-gi-oh": [70405001, "Black Luster Soldier - Soldier of Light and Darkness · Ritual / EARTH"],
+  "tournaments": [90448279, "Divine Arsenal AA-ZEUS - Sky Thunder · Xyz / LIGHT"],
+  "dorm wars": [64211118, "Firewall Dragon Darkfluid - Neo Tempest Terahertz · Link / DARK"],
+  "watercooler": [52687916, "Trishula, Dragon of the Ice Barrier · Synchro / WATER"],
 };
 // House ad for Omega Hub, as a CharacterLine. KurAi (competition) and
 // ShirAi (community) alternate per visit; the "Sponsored" stamp always stays.

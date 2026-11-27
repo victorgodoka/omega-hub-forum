@@ -538,12 +538,12 @@ html { overflow-x: clip; }
 
 // Attribute colors follow the artwork, not category order.
 body .oh-card--block, body .oh-card--block:hover { --oh-monster-rgb: 40 48 65; background: #0b1019; }
-.oh-card--block:has(.oh-category-monster[src$="/6007213.png"]) { --oh-monster-rgb: 158 35 30; } // FIRE
-.oh-card--block:has(.oh-category-monster[src$="/11738489.png"]) { --oh-monster-rgb: 94 42 150; } // DARK
-.oh-card--block:has(.oh-category-monster[src$="/48546368.png"]) { --oh-monster-rgb: 153 113 20; } // LIGHT
-.oh-card--block:has(.oh-category-monster[src$="/84815190.png"]) { --oh-monster-rgb: 27 108 66; } // WIND
-.oh-card--block:has(.oh-category-monster[src$="/26096328.png"]) { --oh-monster-rgb: 129 70 34; } // EARTH
-.oh-card--block:has(.oh-category-monster[src$="/42166000.png"]) { --oh-monster-rgb: 26 91 158; } // WATER
+.oh-card--block:has(.oh-category-monster[src$="/58071334.png"]) { --oh-monster-rgb: 158 35 30; } // FIRE
+.oh-card--block:has(.oh-category-monster[src$="/64211118.png"]) { --oh-monster-rgb: 94 42 150; } // DARK
+.oh-card--block:has(.oh-category-monster[src$="/90448279.png"]) { --oh-monster-rgb: 153 113 20; } // LIGHT
+.oh-card--block:has(.oh-category-monster[src$="/80776622.png"]) { --oh-monster-rgb: 27 108 66; } // WIND
+.oh-card--block:has(.oh-category-monster[src$="/70405001.png"]) { --oh-monster-rgb: 129 70 34; } // EARTH
+.oh-card--block:has(.oh-category-monster[src$="/52687916.png"]) { --oh-monster-rgb: 26 91 158; } // WATER
 
 body .oh-card--block .oh-card__head h3 a { color: var(--oh-ink) !important; }
 
