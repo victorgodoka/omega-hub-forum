@@ -605,6 +605,7 @@ body .oh-card--block:active .oh-card__in {
   .oh-card--block:focus-within .oh-category-monster { transform: scale(1.02); }
 }
 
+.oh-card--block .oh-category-monster[src$="/62256492.jpg"],
 .oh-card--block .oh-category-monster[src$="/58071334.png"] {
   object-fit: contain;
   object-position: 72% center;
