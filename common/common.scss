@@ -536,11 +536,20 @@ html { overflow-x: clip; }
   .oh-card__empty { font-size: 13px; color: var(--oh-ink-muted); a { font-weight: 700; } }
 }
 
+// Attribute colors follow the artwork, not category order.
+.oh-card--block { --oh-monster-rgb: 40 48 65; }
+.oh-card--block:has(.oh-category-monster[src$="/6007213.png"]) { --oh-monster-rgb: 158 35 30; } // FIRE
+.oh-card--block:has(.oh-category-monster[src$="/11738489.png"]) { --oh-monster-rgb: 94 42 150; } // DARK
+.oh-card--block:has(.oh-category-monster[src$="/48546368.png"]) { --oh-monster-rgb: 153 113 20; } // LIGHT
+.oh-card--block:has(.oh-category-monster[src$="/84815190.png"]) { --oh-monster-rgb: 27 108 66; } // WIND
+.oh-card--block:has(.oh-category-monster[src$="/26096328.png"]) { --oh-monster-rgb: 129 70 34; } // EARTH
+.oh-card--block:has(.oh-category-monster[src$="/42166000.png"]) { --oh-monster-rgb: 26 91 158; } // WATER
+
 // Full-card artwork sits behind a permanent readability scrim and the content.
 body .oh-card--block .oh-card__in {
   position: relative;
   z-index: 1;
-  background: linear-gradient(90deg, rgba(10,14,24,.91), rgba(10,14,24,.64) 55%, rgba(10,14,24,.23)),
+  background: linear-gradient(115deg, rgb(var(--oh-monster-rgb) / .90), rgb(var(--oh-monster-rgb) / .53) 55%, rgb(var(--oh-monster-rgb) / .18)),
               linear-gradient(0deg, rgba(10,14,24,.95), transparent 75%) !important;
 }
 .oh-category-monster {
